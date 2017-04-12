@@ -9,6 +9,14 @@
 	border-radius: 10px;
 }
 
+p::first-letter	{
+	font-size: 2em;
+}
+
 .unordered-list {
 	font-size: .8em;
+}
+
+#work-experience li {
+	font-family: sans-serif;
 }
