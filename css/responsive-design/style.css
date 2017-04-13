@@ -46,3 +46,22 @@ main {
   display: inline-block;
   vertical-align: top;
 }
+
+
+/*
+@media screen and (max-width: 500px) {
+  body {
+    background-color: hotpink;
+  }
+}
+*/
+
+@media screen and (max-device-width: 800px) {
+  #external-links {
+    font-size: 175%;
+  }
+}
+
+@media screen and (max-device-width: 500px) {
+  
+}
