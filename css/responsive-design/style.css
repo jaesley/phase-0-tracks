@@ -56,12 +56,37 @@ main {
 }
 */
 
-@media screen and (max-device-width: 800px) {
+/* @media screen and (max-device-width: 800px) {
   #external-links {
     font-size: 175%;
   }
 }
+*/
 
 @media screen and (max-device-width: 500px) {
-  
+  #external-links {
+    padding-right: 10px;
+  }
+
+  main {
+    width: 75%;
+  }
+
+  h1 {
+    font-size: 90%;
+  }
+}
+
+@media screen and (min-width: 1800px) {
+  #purple_flowers {
+    position: relative;
+    left: 800px;
+    top: -706px;
+  }
+
+  #decprox {
+    position: relative;
+    left: 800px;
+    top: -706px;
+  }
 }
