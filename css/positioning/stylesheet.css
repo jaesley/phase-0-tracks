@@ -2,20 +2,20 @@ p {
 	padding: 100px;
 }
 
-#octopus {
+img {
 	margin: auto;
 	display: block;
-	z-index: -1
+}
+
+#octopus {
+	z-index: -1;
 }
 
 #hat {
-	position: absolute;
+	position: relative;
 	margin-top: -350px;
-	margin-left: 725px;
 }
 
 #glasses {
-	position: absolute;
-	margin-left: 790px;
-	margin-top: -187px;
+	position: relative;
 }
