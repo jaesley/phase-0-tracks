@@ -1,0 +1,31 @@
+Release 0
+
+	- Determine destination.
+	- Locate building directory.
+	- Determine floor of destination.
+		- If destination's floor is the current floor:
+			- Walk to destination.
+		- Otherwise:
+			- Determine if elevator is in service.
+				- If out of service:
+					- Take the stairs.
+				- Otherwise:
+					- Determine if destination floor is higher or lower than current floor.
+						- If higher:
+							- Press the up arrow on the escalator call panel.
+						- Otherwise:
+							- Press the down arrow on the escalator call panel.
+					- Wait until elevator door opens.
+					- Enter elevator.
+					- Press button of destination floor on operation panel.
+					- Wait for elevator door to close.
+					- Wait for elevator door to open.
+					- Exit elevator.
+					- Walk to destination.
+
+
+	1) Ask user for destination input.
+	2) Determine floor of that destination.
+	3) Push buttons.
+
+Release 1
