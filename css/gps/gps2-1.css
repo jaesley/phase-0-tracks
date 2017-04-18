@@ -1,0 +1,36 @@
+.column-1, .column-2 {
+  display: inline-block;
+  width:45%;
+  vertical-align:top;
+}
+
+.column-1 {
+  border-right: 3px solid black;
+  padding-right: 20px;
+  margin-right: 20px;
+}
+
+body {
+  background-color: white;
+  font-family: "Helvetica", sans-serif;
+  color: green;
+  background-image: url('https://cdn.pixabay.com/photo/2013/09/19/16/44/sky-183869_1280.jpg');
+  background-size:100%;
+}
+
+header h1 {
+  color: red;
+  text-align: center;
+}
+
+header {
+  background-color: lightblue;
+}
+
+footer {
+  background-color: yellow;
+  margin-top: 20px;
+  border-top: 3px solid black;
+  padding-top: 20px;
+  text-align: center;
+}
