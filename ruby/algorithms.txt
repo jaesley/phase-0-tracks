@@ -12,14 +12,26 @@ Release 0
 				- Otherwise:
 					- Determine if destination floor is higher or lower than current floor.
 						- If higher:
-							- Press the up arrow on the escalator call panel.
+							- Determine if up arrow on the esccalator call panel is lit.
+								- If no:
+									- Press the up arrow on the escalator call panel.
+									- Wait until elevator door opens.
 						- Otherwise:
-							- Press the down arrow on the escalator call panel.
+							- Determine if down arrow on the esccalator call panel is lit.
+								- If no:
+									- Press the down arrow on the escalator call panel.
 					- Wait until elevator door opens.
+					- While there is no room for you in the elevator:
+						- Wait for elevator door to close.
+						- Wait two seconds for elevator to leave.
+						- Press the appropriate arrow button on the call panel again.
 					- Enter elevator.
-					- Press button of destination floor on operation panel.
+					- Determine if the destination floor's button is lit.
+						- If no: 
+							- Press button of destination floor on operation panel.
 					- Wait for elevator door to close.
-					- Wait for elevator door to open.
+					- Until elevator door is open and current floor is destination floor:
+						- Ride elevator.
 					- Exit elevator.
 					- Walk to destination.
 
