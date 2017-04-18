@@ -15,7 +15,6 @@ Release 0
 							- Determine if up arrow on the esccalator call panel is lit.
 								- If no:
 									- Press the up arrow on the escalator call panel.
-									- Wait until elevator door opens.
 						- Otherwise:
 							- Determine if down arrow on the esccalator call panel is lit.
 								- If no:
@@ -35,9 +34,39 @@ Release 0
 					- Exit elevator.
 					- Walk to destination.
 
-
-	1) Ask user for destination input.
-	2) Determine floor of that destination.
-	3) Push buttons.
-
 Release 1
+
+	- If dog is sitting at the door or you are about to leave the house:
+		- While dog is underfoot:
+			- Tell dog to wait by the door.
+		- While not wearing shoes:
+			- Find closeset pair of shoes.
+				- If shoes are comfortable or don't require tying:
+					- Put shoes on.
+				- Otherwise:
+					- Move to a random location in apartment.
+		- Check pockets for phone.
+			- If not found:
+				- Until found:
+					Search apartment for phone.
+				- Put phone in pocket.
+		- Check pockets for keys.
+			- If not found:
+				- Until found or dog starts barking:
+					- Search apartment for keys.
+				- If found:
+					- Put keys in pocket.
+				- Else:
+					- Hope phone has enough battery to dial the call box to get back in.
+		- Find dog's leash.
+		- While dog is jumping up and down:
+			- Tell dog to sit.
+		- Put leash on dog.
+		- Open door.
+			- If dog is blocking door:
+				- Tell dog to back up.
+			- While door is partially open:
+				- Tell dog to wait.
+			- Else:
+				- Tell dog "Let's go"
+		- Exit apartment.
