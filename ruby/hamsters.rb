@@ -17,10 +17,18 @@ puts "What color is the hamster's fur?"
 puts "Is the hamster a good candidate for adoption? (y/n)"
   adoption = gets.chomp
    
-   until adoption == "y" || adoption == "n"
+  until adoption.downcase == "y" || adoption.downcase == "n"
     puts "Is the hamster a good candidate for adoption? (y/n)"
     adoption = gets.chomp
   end
+
+  if adoption == "y"
+  	adoption = true
+  else
+  	adoption = false
+  end
+
+  puts "#{adoption}"
  
 puts "What is the hamster's approximate age?"
   age = gets.chomp
@@ -38,4 +46,5 @@ puts "Hamster's fur color is #{furcolor}."
 		puts "Hamster's adoption approval status is approved."
 	else 
 		puts "Hamster's adoption approval status is not approved."
+	end
 puts "Hamster's approximate age is #{age}" 
