@@ -22,6 +22,7 @@ employees = employees.to_i
 	puts "Our company cafeteria serves garlic bread. Should we order some for you? (y/n)"
 
 	garlic = gets.chomp
+	garlic = garlic.downcase
 
 	until garlic == "y" || garlic == "n"
 		puts "Please use 'y' or 'n'. Now, should we order some garlic bread?"
@@ -29,16 +30,17 @@ employees = employees.to_i
 	end
 
 	if garlic == "y"
-  	garlic = true
+	  garlic = true
 	else
-  	garlic = false
+	  garlic = false
 	end
 
 	puts "Would you like to enroll in the company's health insurance? (y/n)"
 
 	insurance = gets.chomp
+	insurance = insurance.downcase
 
-	until insurance == "y" || insurance == "n"
+	until insurance. == "y" || insurance == "n"
 		puts "Please use 'y' or 'n'. Now, would you like to enroll?"
 		insurance = gets.chomp
 	end
@@ -49,6 +51,14 @@ employees = employees.to_i
 	  insurance = false
 	end
 
+	puts "Please list any allergies you have, one at a time. When you've listed them all, type 'done'."
+	allergies = gets.chomp
+	until allergies == "sunshine" || allergies == "done"
+	  puts "List another allergy or type 'done' when you're finished."
+	  allergies = gets.chomp
+	  allergies = allergies.downcase
+	end
+
 	vampire = "Results inconclusive."
 	curryear = age + birthyear
 
@@ -56,7 +66,7 @@ employees = employees.to_i
 	  vampire = "Probably not a vampire."
 	end
 
-	if curryear != 2017 && ( !garlic || !insurance )
+	if ( curryear != 2017 && ( !garlic || !insurance ) ) || allergies == "sunshine"
 		vampire = "Probably a vampire."
 	end
 
@@ -70,3 +80,5 @@ employees = employees.to_i
 
 	puts "#{vampire}"
 end
+
+puts "Actually, never mind! What do these questions have to do with anything? Let's all be friends."
