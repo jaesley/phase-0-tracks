@@ -62,15 +62,15 @@ employees = employees.to_i
 	vampire = "Results inconclusive."
 	curryear = age + birthyear
 
-	if curryear == 2017 && garlic && insurance
+	if curryear.between?(2016, 2017) && garlic && insurance
 	  vampire = "Probably not a vampire."
 	end
 
-	if ( curryear != 2017 && ( !garlic || !insurance ) ) || allergies == "sunshine"
+	if ( curryear.between?(2016, 2017) && ( !garlic || !insurance ) ) || allergies == "sunshine"
 		vampire = "Probably a vampire."
 	end
 
-	if curryear != 2017 && ( !garlic && !insurance )
+	if curryear.between?(2016, 2017) && ( !garlic && !insurance )
 		vampire = "Almost certainly a vampire."
 	end
 
