@@ -1,64 +1,72 @@
-puts "What is  your name?"
+puts "How many employees are you processing?"
 
-name = gets.chomp
+employees = gets.chomp
+employees = employees.to_i
 
-puts "How old are you?"
+(1..employees).each do
 
-age = gets.chomp
-age = age.to_i
+	puts "What is your name?"
 
-puts "What year were you born?"
+	name = gets.chomp
 
-birthyear = gets.chomp
-birthyear = birthyear.to_i
+	puts "How old are you?"
 
-puts "Our company cafeteria serves garlic bread. Should we order some for you? (y/n)"
+	age = gets.chomp
+	age = age.to_i
 
-garlic = gets.chomp
+	puts "What year were you born?"
 
-until garlic == "y" || garlic == "n"
-	puts "Please use 'y' or 'n'. Now, should we order some garlic bread?"
+	birthyear = gets.chomp
+	birthyear = birthyear.to_i
+
+	puts "Our company cafeteria serves garlic bread. Should we order some for you? (y/n)"
+
 	garlic = gets.chomp
-end
 
-if garlic == "y"
-  garlic = true
-else
-  garlic = false
-end
+	until garlic == "y" || garlic == "n"
+		puts "Please use 'y' or 'n'. Now, should we order some garlic bread?"
+		garlic = gets.chomp
+	end
 
-puts "Would you like to enroll in the company's health insurance? (y/n)"
+	if garlic == "y"
+  	garlic = true
+	else
+  	garlic = false
+	end
 
-insurance = gets.chomp
+	puts "Would you like to enroll in the company's health insurance? (y/n)"
 
-until insurance == "y" || insurance == "n"
-	puts "Please use 'y' or 'n'. Now, would you like to enroll?"
 	insurance = gets.chomp
+
+	until insurance == "y" || insurance == "n"
+		puts "Please use 'y' or 'n'. Now, would you like to enroll?"
+		insurance = gets.chomp
+	end
+
+	if insurance == "y"
+	  insurance = true
+	else
+	  insurance = false
+	end
+
+	vampire = "Results inconclusive."
+	curryear = age + birthyear
+
+	if curryear == 2017 && garlic && insurance
+	  vampire = "Probably not a vampire."
+	end
+
+	if curryear != 2017 && ( !garlic || !insurance )
+		vampire = "Probably a vampire."
+	end
+
+	if curryear != 2017 && ( !garlic && !insurance )
+		vampire = "Almost certainly a vampire."
+	end
+
+	if name == "Drake Cula" || name == "Tu Fang"
+		vampire = "Definitely a vampire"
+	end
+
+	puts "#{vampire}"
 end
-
-if insurance == "y"
-  insurance = true
-else
-  insurance = false
-end
-
-vampire = "Results inconclusive."
-curryear = age + birthyear
-
-if curryear == 2017 && garlic && insurance
-  vampire = "Probably not a vampire."
-end
-
-if curryear != 2017 && ( !garlic || !insurance )
-	vampire = "Probably a vampire."
-end
-
-if curryear != 2017 && ( !garlic && !insurance )
-	vampire = "Almost certainly a vampire."
-end
-
-if name == "Drake Cula" || name == "Tu Fang"
-	vampire = "Definitely a vampire"
-end
-
-puts "#{vampire}"
