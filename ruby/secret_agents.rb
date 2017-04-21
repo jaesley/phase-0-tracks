@@ -1,6 +1,6 @@
 # Encrypt
 # Store alphabet variable
-password = "zed"
+password = "afe"
 def encrypt(password)
 # Loop through each letter of the password by index.
   index = 0
@@ -28,4 +28,22 @@ puts encrypt(password)
 
 # Decrypt
 # Get the index of each letter of encrypted string
+def decrypt(password)
 # Store letter at index - 1 from the alphabet
+  index = 0
+  alphabet = "abcdefghijklmnopqrstuvwxyz"
+  decrypted = ""
+  while index < password.length
+    letter = password[index]
+    newindex = alphabet.index(letter)
+      if newindex - 1 == -1
+        newindex = alphabet.length
+      end
+    newletter = alphabet[newindex -1]
+    decrypted[index] = newletter
+    index += 1
+  end
+  return decrypted
+end
+
+puts decrypt(password)
