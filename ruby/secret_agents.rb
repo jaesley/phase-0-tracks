@@ -1,6 +1,7 @@
+# OUR METHOD DECLARATIONS
+
 # Encrypt
 # Store alphabet variable
-password = "afe"
 def encrypt(password)
 # Loop through each letter of the password by index.
   index = 0
@@ -24,7 +25,7 @@ if newindex + 1 == alphabet.length
   return encrypted
 end
 
-puts encrypt(password)
+# puts encrypt(password)
 
 # Decrypt
 # Get the index of each letter of encrypted string
@@ -46,4 +47,25 @@ def decrypt(password)
   return decrypted
 end
 
-puts decrypt(password)
+# puts decrypt(password)
+
+# If you decrypt the encryption, you'll get the original back!
+# puts decrypt(encrypt("swordfish"))
+
+# OUR DRIVER CODE
+
+# Asks a secret agent (the user) whether they would like to decrypt or encrypt a password
+puts "Would you like to decrypt or encrypt a password?"
+
+method = gets.chomp
+# Asks them for the password
+puts "What is your password?"
+
+password = gets.chomp
+# Conducts the requested operation, prints the result to the screen, and exits
+
+if method == "encrypt"
+  puts encrypt(password)
+else 
+  puts decrypt(password)
+end
