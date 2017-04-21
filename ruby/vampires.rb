@@ -3,6 +3,12 @@ puts "How many employees are you processing?"
 employees = gets.chomp
 employees = employees.to_i
 
+while employees <= 0
+	puts "Use a positive number, please. Now, how many employees?"
+	employees = gets.chomp
+	employees = employees.to_i
+end
+
 (1..employees).each do
 
 	puts "What is your name?"
@@ -14,10 +20,22 @@ employees = employees.to_i
 	age = gets.chomp
 	age = age.to_i
 
+	while age <= 0
+		puts "Use a positive number, please. Now, how old are you?"
+		age = gets.chomp
+		age = age.to_i
+	end
+
 	puts "What year were you born?"
 
 	birthyear = gets.chomp
 	birthyear = birthyear.to_i
+	
+	while birthyear == 0
+		puts "Use a positive number, please. Now, what year were you born?"
+		birthyear = gets.chomp
+		birthyear = birthyear.to_i
+	end
 
 	puts "Our company cafeteria serves garlic bread. Should we order some for you? (y/n)"
 
@@ -40,7 +58,7 @@ employees = employees.to_i
 	insurance = gets.chomp
 	insurance = insurance.downcase
 
-	until insurance. == "y" || insurance == "n"
+	until insurance == "y" || insurance == "n"
 		puts "Please use 'y' or 'n'. Now, would you like to enroll?"
 		insurance = gets.chomp
 	end
@@ -60,17 +78,18 @@ employees = employees.to_i
 	end
 
 	vampire = "Results inconclusive."
-	curryear = age + birthyear
+	year = Time.new.year
+	birthage = age + birthyear
 
-	if curryear.between?(2016, 2017) && garlic && insurance
+	if birthage.between?(year - 1, year) && garlic && insurance
 	  vampire = "Probably not a vampire."
 	end
 
-	if ( curryear.between?(2016, 2017) && ( !garlic || !insurance ) ) || allergies == "sunshine"
+	if ( birthage.between?(year - 1, year) && ( !garlic || !insurance ) ) || allergies == "sunshine"
 		vampire = "Probably a vampire."
 	end
 
-	if curryear.between?(2016, 2017) && ( !garlic && !insurance )
+	if birthage.between?(year - 1, year) && !garlic && !insurance
 		vampire = "Almost certainly a vampire."
 	end
 
