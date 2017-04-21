@@ -32,7 +32,7 @@ end
 	birthyear = birthyear.to_i
 	
 	while birthyear == 0
-		puts "Use a positive number, please. Now, what year were you born?"
+		puts "Use a valid year, please. Now, what year were you born?"
 		birthyear = gets.chomp
 		birthyear = birthyear.to_i
 	end
