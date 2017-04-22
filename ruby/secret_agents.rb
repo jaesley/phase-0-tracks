@@ -14,22 +14,29 @@ def encrypt(password)
 
   while index < password.length
 
-# If the character is a space, skip it
+# If the character is not a space
+    if password[index] != " "
+      
+# Store newindex as the alphabetical index of the current password letter
 
-# Otherwise store newindex as the alphabetical index of the current password letter
-
-		newindex = alphabet.index(password[index])
+			newindex = alphabet.index(password[index])
 
 # If the newindex + 1 equals the alphabet length reset index back to -1
 # so 'z' will become 'a'
 
-			if newindex + 1 == alphabet.length
-				newindex = -1
-	    end
+				if newindex + 1 == alphabet.length
+					newindex = -1
+	    	end
 
 # Set encrypted[index] to the next letter of the alphabet
 
-    encrypted[index] = alphabet[newindex + 1]
+    	encrypted[index] = alphabet[newindex + 1]
+  
+# If character is a space, set encrypted[index] to a space as well
+
+		else 
+			encrypted[index] = " "
+  end
 
 # Raise index by 1 and start next iteration
 
@@ -55,21 +62,29 @@ def decrypt(password)
 
   while index < password.length
 
-# If the character is a space, skip it
+# If the character is not a space
 
-# Otherwise store newindex as the alphabetical index of the current password letter
+    if password[index] != " "
 
-    newindex = alphabet.index(password[index])
+# Store newindex as the alphabetical index of the current password letter
+
+    	newindex = alphabet.index(password[index])
 
 # If the newindex - 1 equals -1 reset index back to alphabet length
 # so 'a' will become 'z'
-      if newindex - 1 == -1
-        newindex = alphabet.length
-      end
+	      if newindex - 1 == -1
+        	newindex = alphabet.length
+      	end
 
 # Set decrypted[index] to the previous letter of the alphabet
 
-    decrypted[index] = alphabet[newindex - 1]
+    	decrypted[index] = alphabet[newindex - 1]
+
+# If character is a space, set decrypted[index] to a space as well
+
+		else 
+			decrypted[index] = " "
+  end
 
 # Raise index by 1 and start next iteration
 
@@ -102,7 +117,7 @@ end
 
 # Asks them for the password
 
-puts "What is your password?"
+puts "What is your password? Your password can contain lowercase letters and spaces only."
 password = gets.chomp
 
 # Prints the requeseted operation's result to the screen
