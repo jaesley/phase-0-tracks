@@ -19,29 +19,29 @@ def encrypt(password)
       
 # Store newindex as the alphabetical index of the current password letter
 
-			newindex = alphabet.index(password[index])
+      newindex = alphabet.index(password[index])
 
 # If the newindex + 1 equals the alphabet length reset index back to -1
 # so 'z' will become 'a'
 
-				if newindex + 1 == alphabet.length
-					newindex = -1
-	    	end
+        if newindex + 1 == alphabet.length
+          newindex = -1
+        end
 
 # Set encrypted[index] to the next letter of the alphabet
 
-    	encrypted[index] = alphabet[newindex + 1]
+      encrypted[index] = alphabet[newindex + 1]
   
 # If character is a space, set encrypted[index] to a space as well
 
-		else 
-			encrypted[index] = " "
+    else 
+      encrypted[index] = " "
   end
 
 # Raise index by 1 and start next iteration
 
-	  index += 1
-	end
+    index += 1
+  end
 
 # After all letters have been adjusted, return encrypted
   
@@ -68,22 +68,22 @@ def decrypt(password)
 
 # Store newindex as the alphabetical index of the current password letter
 
-    	newindex = alphabet.index(password[index])
+      newindex = alphabet.index(password[index])
 
 # If the newindex - 1 equals -1 reset index back to alphabet length
 # so 'a' will become 'z'
-	      if newindex - 1 == -1
-        	newindex = alphabet.length
-      	end
+        if newindex - 1 == -1
+          newindex = alphabet.length
+        end
 
 # Set decrypted[index] to the previous letter of the alphabet
 
-    	decrypted[index] = alphabet[newindex - 1]
+      decrypted[index] = alphabet[newindex - 1]
 
 # If character is a space, set decrypted[index] to a space as well
 
-		else 
-			decrypted[index] = " "
+    else 
+      decrypted[index] = " "
   end
 
 # Raise index by 1 and start next iteration
@@ -111,8 +111,8 @@ method = gets.chomp.downcase
 # Prompts again if input is not 'encrypt' or 'decrypt'.
 
 until method == "encrypt" || method == "decrypt"
-	puts "I didn't understand that. Would you like to decrypt or encrypt a password?"
-	method = gets.chomp.downcase
+  puts "I didn't understand that. Would you like to decrypt or encrypt a password?"
+  method = gets.chomp.downcase
 end
 
 # Asks them for the password
