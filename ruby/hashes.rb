@@ -83,3 +83,30 @@ end
 # Print client info.
 
 puts client
+
+# Check if key needs updating.
+
+puts "Which key should be updated? If all keys are correct, enter 'none'."
+key = gets.chomp
+
+# If not 'none', get corrected key value.
+
+if key != "none"
+  puts "What is the corrected value for key \"#{key}\"?"
+  client[key.to_sym] = gets.chomp
+end
+
+# Reconvert data type if necessary.
+if key = "age" || key == "children" || key == "budget"
+  client[key.to_sym] = client[key.to_sym].to_i
+end
+
+if ( key == "hgtv" || key == "approval" ) && client[key.to_sym] == "y"
+  client[key.to_sym] = true
+end
+
+if ( key == "hgtv" || key == "approval" ) && client[key.to_sym] == "n"
+  client[key.to_sym] = false
+end
+
+puts client
