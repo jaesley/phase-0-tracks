@@ -1,32 +1,45 @@
 # METHODS
 
+# Set up blank hash.
+
+client = {
+  :name => ""
+  :age => ""
+  :children => ""
+  :theme => ""
+  :budget => ""
+  :approval => ""
+  :hgtv => ""
+}
 
 # DRIVER CODE
 
+# Update user-entered variables for hash.
+
 puts "What is the client's name?"
 
-name = gets.chomp
+client[:name] = gets.chomp
 
 puts "What is the client's age?"
 
-age = gets.chomp
+client[:age] = gets.chomp
 
 puts "What is the client's number of children?"
 
-children = gets.chomp
+client[:children] = gets.chomp
 
 puts "What is the client's decor theme?"
 
-theme = gets.chomp
+client[:theme] = gets.chomp
 
 puts "What is the client's budget?"
 
-budget = gets.chomp
+client[:budget] = gets.chomp
 
 puts "Did the client approve the design sketches?"
 
-approval = gets.chomp
+client[:approval] = gets.chomp
 
 puts "Is this redecoration going to be on HGTV?"
 
-hgtv = gets.chomp
+client[:hgtv] = gets.chomp
