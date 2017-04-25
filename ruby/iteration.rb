@@ -27,3 +27,24 @@ menu = {:breakfast => "scrambled eggs", :lunch => "PB&J", :dinner => "steak"}
 menu.each do |meal, food|
   puts "For #{meal} we ate #{food}."
 end
+
+# Release 2
+
+numbers = [2, 4, 6, 8]
+# numbers.delete_if { |number| number < 5 }
+# puts numbers
+
+numbers = [2, 4, 6, 8, 1, 3]
+# puts numbers.select { |number| number < 5 }
+
+# puts numbers.reject { |number| number < 5 }
+
+# puts numbers.drop_while { |number| number < 5 }
+
+hash = {"a" => 1, "b" => 2, "c" => 3, "d" => 4}
+
+# hash.delete_if { |letter, number| number > 3 }
+
+# puts hash.select { |letter, number| number < 2 }
+
+puts hash.reject { |letter, number| number < 2 }
