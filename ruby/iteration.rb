@@ -14,7 +14,16 @@ landmarks.each do |landmark|
   puts "Today we visited #{landmark}."
 end
 
+landmarks.map! do |landmark|
+  landmark.downcase
+end
+
+puts landmarks
+
 # Hash
 
 menu = {:breakfast => "scrambled eggs", :lunch => "PB&J", :dinner => "steak"}
 
+menu.each do |meal, food|
+  puts "For #{meal} we ate #{food}."
+end
