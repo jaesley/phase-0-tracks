@@ -1,5 +1,9 @@
 # METHODS
 
+# STORE NAMES AS HASH
+
+alias_hash = {}
+
 # SHIFT TO NEXT LETTER.
 
 def shift_letter(letter)
@@ -91,10 +95,28 @@ end
 puts "What is the agent's name?"
 name = gets.chomp
 
-# Perform alias-making method.
+# Until user enters 'quit'
 
-aka = make_alias(name)
+until name == "quit"
 
-# Return alias.
+# Perform alias-making method on given name.
+  aka = make_alias(name)
 
-puts "#{name} is also known as #{aka}."
+# Return alias for that name.
+
+  puts "#{name} is also known as #{aka}."
+
+# Store name and alias in hash.
+  alias_hash[name] = aka
+
+# Ask for another name.
+
+  puts "\nWhat is the next agent's name?"
+  name = gets.chomp
+end
+
+# Print hash of all name-alias pairs given.
+puts
+alias_hash.each do | name, aka |
+    puts name + " is also known as " + aka + "."
+end
