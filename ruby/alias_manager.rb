@@ -1,6 +1,6 @@
 # METHODS
 
-# Shift to next vowel.
+# SHIFT TO NEXT LETTER.
 
 def shift_letter(letter)
 
@@ -15,33 +15,38 @@ def shift_letter(letter)
   else
     uppercase = false
   end
-puts letter
+  
 # If letter is a vowel,
 
   if vowels.include?(letter)
-
+    
 # Return the vowel after the previous one.
 
     letter = vowels[vowels.index(letter) + 1]
     
 # Else if letter is a consonant,
   elsif consonants.include?(letter)
-    
+  
 # Return the consonant after the previous one.
     letter = consonants[consonants.index(letter) + 1]
 
 # Else letter is probably punctation, so
   else
-
+    
 # Return punctuation unchanged.
     letter
   end
 
 # Restore capitalization if necessary.
-
+  if uppercase
+    letter = letter.upcase
+  else
+    letter = letter
+  end
 end
 
-# Alias maker.
+# MAKE ALIAS
+
 def make_alias(name)
   
 # Swap first and last name.
@@ -58,7 +63,7 @@ def make_alias(name)
   
 end
 
-# DRIVERS
+# DRIVER CODE
 
 # Get agent name.
 
