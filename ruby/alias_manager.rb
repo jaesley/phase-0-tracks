@@ -2,19 +2,33 @@
 
 # Shift to next vowel.
 
-def shift_vowel(name)
+def shift_letter(letter)
 
-# Store vowels.
+# Store vowels and consonants separately.
   vowels = ["a", "e", "i", "o", "u"]
+  consonants = ["b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z"]
+  
+# If letter is a vowel,
 
+  if vowels.include?(letter)
+
+# Return the vowel after the previous one.
+
+    letter = vowels[vowels.index(letter) + 1]
+    
+# Else letter is a consonant
+  else 
+    
+# Return the consonant after the previous one.
+    letter = consonants[consonants.index(letter) + 1]
+  end
 end
 
 # Shift to next consonant.
 
-def shift_consonant(name)
+def shift_consonant(letter)
   
 # Store consonants.
-  consonants = ["b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z"]
 end
 
 # Alias maker.
@@ -26,11 +40,8 @@ def make_alias(name)
 # Convert name to array.
   name = name.split('')
 
-# Alias vowels.
-  name = vowel_shift(name)
-
-# Alias consonants.
-  name = consonant_shift(name)
+# Shift letters to next vowel or consonant.
+  name.map! { |letter| shift_letter(letter) }
 
 # Rejoin name.
   name = name.join('')
@@ -43,10 +54,11 @@ end
 
 puts "What is the agent's name?"
 name = gets.chomp
+
 # Perform alias-making method.
 
-alias = make_alias(name)
+aka = make_alias(name)
 
 # Return alias.
 
-puts "#{name} is also known as #{alias}."
+# puts "#{name} is also known as #{alias}."
