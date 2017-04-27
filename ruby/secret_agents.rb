@@ -1,3 +1,4 @@
+secretagents
 # OUR METHOD DECLARATIONS
 
 # 1. Encrypt
