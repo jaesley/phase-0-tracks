@@ -20,15 +20,36 @@ def shift_letter(letter)
 
   if vowels.include?(letter)
     
-# Return the vowel after the previous one.
+# If letter is the last vowel.
 
-    letter = vowels[vowels.index(letter) + 1]
+    if vowels.index(letter) + 1 == vowels.length
+      
+# Return the first vowel.
+
+      letter = vowels[0]
+      
+# Else return the next vowel.
+
+    else
+      letter = vowels[vowels.index(letter) + 1]
+    end
     
 # Else if letter is a consonant,
   elsif consonants.include?(letter)
   
-# Return the consonant after the previous one.
-    letter = consonants[consonants.index(letter) + 1]
+# If letter is the last consonant.
+
+    if consonants.index(letter) + 1 == consonants.length
+      
+# Return the first vowel.
+
+      letter = consonants[0]
+      
+# Else return the next vowel.
+
+    else
+      letter = consonants[consonants.index(letter) + 1]
+    end
 
 # Else letter is probably punctation, so
   else
@@ -41,7 +62,7 @@ def shift_letter(letter)
   if uppercase
     letter = letter.upcase
   else
-    letter = letter
+    letter
   end
 end
 
