@@ -8,6 +8,14 @@ def shift_letter(letter)
   vowels = ["a", "e", "i", "o", "u"]
   consonants = ["b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z"]
   
+# Determine if letter is capitalized
+  if ('A'..'Z').include?(letter)
+    uppercase = true
+    letter = letter.downcase
+  else
+    uppercase = false
+  end
+puts letter
 # If letter is a vowel,
 
   if vowels.include?(letter)
@@ -28,13 +36,9 @@ def shift_letter(letter)
 # Return punctuation unchanged.
     letter
   end
-end
 
-# Shift to next consonant.
+# Restore capitalization if necessary.
 
-def shift_consonant(letter)
-  
-# Store consonants.
 end
 
 # Alias maker.
@@ -67,4 +71,4 @@ aka = make_alias(name)
 
 # Return alias.
 
-# puts "#{name} is also known as #{alias}."
+puts "#{name} is also known as #{aka}."
