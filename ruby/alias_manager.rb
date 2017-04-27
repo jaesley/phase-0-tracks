@@ -16,11 +16,17 @@ def shift_letter(letter)
 
     letter = vowels[vowels.index(letter) + 1]
     
-# Else letter is a consonant
-  else 
+# Else if letter is a consonant,
+  elsif consonants.include?(letter)
     
 # Return the consonant after the previous one.
     letter = consonants[consonants.index(letter) + 1]
+
+# Else letter is probably punctation, so
+  else
+
+# Return punctuation unchanged.
+    letter
   end
 end
 
