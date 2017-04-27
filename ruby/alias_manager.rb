@@ -56,13 +56,16 @@ def shift_letter(letter)
     end
 
 # Else letter is probably punctation, so
+
   else
     
 # Return punctuation unchanged.
+
     letter
   end
 
 # Restore capitalization if necessary.
+
   if uppercase
     letter = letter.upcase
   else
