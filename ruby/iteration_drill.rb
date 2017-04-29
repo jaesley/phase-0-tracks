@@ -170,3 +170,11 @@ puts check_animals(extinct_animals, ["Andean Cat", "Dodo", "Saiga Antelope"])
 # Find the built-in method that helps you accomplish this in the Ruby documentation
 # for Hashes.
 # ----
+
+def resurrect(hash, animal)
+  array = hash.assoc(animal)
+  hash.delete(animal)
+  return array
+end
+
+puts resurrect(extinct_animals, "Passenger Pigeon")
