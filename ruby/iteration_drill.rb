@@ -3,11 +3,6 @@
 zombie_apocalypse_supplies = ["hatchet", "rations", "water jug", "binoculars",
                               "shotgun", "compass", "CB radio", "batteries"]
 
-# Array Drills
-
-zombie_apocalypse_supplies = ["hatchet", "rations", "water jug", "binoculars",
-                              "shotgun", "compass", "CB radio", "batteries"]
-
 # 1. Iterate through the zombie_apocalypse_supplies array,
 # printing each item in the array separated by an asterisk
 # ----
@@ -42,10 +37,41 @@ puts sort_bubble(zombie_apocalypse_supplies)
 # For instance: are boots in your list of supplies?
 # ----
 
+def check_item(array, thing)
+  array.each do | item |
+    if item == thing
+      return TRUE
+    end
+  end
+  return FALSE
+end
+
+puts check_item(zombie_apocalypse_supplies, "hatchet")
+
 # 4. You can't carry too many things, you've only got room in your pack for 5.
 # Remove items in your zombie_apocalypse_supplies in any way you'd like,
 # leaving only 5. Do not use any special built-in methods.
 # ----
+
+def remove_item(array, thing)
+  kept_items = []
+  
+  array.each do | item |
+    if item != thing
+      kept_items << item
+    end
+  end
+  array = kept_items
+end
+
+def remove_items(array, things)
+  things.each do | item |
+    array = remove_item(array, item)
+  end
+  return array
+end
+
+puts remove_items(zombie_apocalypse_supplies, ["rations", "binoculars", "hatchet"])
 
 # 5. You found another survivor! This means you can combine your supplies.
 # Create a new combined supplies list out of your zombie_apocalypse_supplies
