@@ -7,19 +7,71 @@ zombie_apocalypse_supplies = ["hatchet", "rations", "water jug", "binoculars",
 # printing each item in the array separated by an asterisk
 # ----
 
+zombie_apocalypse_supplies.each { | item | print item, " * " }
+
 # 2. In order to keep yourself organized, sort your zombie_apocalypse_supplies
 # in alphabetical order. Do not use any special built-in methods.
 # ----
+
+def sort_bubble(array)
+  loop do
+    sorted = false
+  
+    (array.length - 1).times do |x|
+      if array[x] > array[x + 1]
+        array[x], array[x + 1] = array[x + 1], array[x]
+        sorted = true
+      end
+    end
+    
+    break if not sorted
+  end
+  
+  return array
+end
+
+puts sort_bubble(zombie_apocalypse_supplies)
 
 # 3. Create a method to see if a particular item (string) is in the
 # zombie_apocalypse_supplies. Do not use any special built-in methods.
 # For instance: are boots in your list of supplies?
 # ----
 
+def check_item(array, thing)
+  array.each do | item |
+    if item == thing
+      return TRUE
+    end
+  end
+  return FALSE
+end
+
+puts check_item(zombie_apocalypse_supplies, "hatchet")
+
 # 4. You can't carry too many things, you've only got room in your pack for 5.
 # Remove items in your zombie_apocalypse_supplies in any way you'd like,
 # leaving only 5. Do not use any special built-in methods.
 # ----
+
+def remove_item(array, thing)
+  kept_items = []
+  
+  array.each do | item |
+    if item != thing
+      kept_items << item
+    end
+  end
+  array = kept_items
+end
+
+def remove_items(array, things)
+  things.each do | item |
+    array = remove_item(array, item)
+  end
+  return array
+end
+
+puts remove_items(zombie_apocalypse_supplies, ["rations", "binoculars", "hatchet"])
 
 # 5. You found another survivor! This means you can combine your supplies.
 # Create a new combined supplies list out of your zombie_apocalypse_supplies
@@ -29,6 +81,12 @@ zombie_apocalypse_supplies = ["hatchet", "rations", "water jug", "binoculars",
 other_survivor_supplies = [ "warm clothes", "rations", "compass", "camp stove",
                             "solar battery", "flashlight"]
 # ----
+
+def combine_supplies(survivor1_pack, survivor2_pack)
+  survivor1_pack.concat(survivor2_pack).uniq!
+end
+
+puts combine_supplies(zombie_apocalypse_supplies, other_survivor_supplies)
 
 # Hash Drills
 
@@ -46,15 +104,39 @@ extinct_animals = {
 # with a dash in between the key and value, and an asterisk between each pair.
 # ----
 
+extinct_animals.each { |animal, year| print animal + " - " + year.to_s, " * " }
+
 # 2. Keep only animals in extinct_animals if they were extinct before
 # the year 2000. Do not use any special built-in methods.
 # ----
+
+def extinct_before(hash, date)
+  animals = {}
+  
+  hash.each do |animal, year|
+    if year < date
+      animals[animal] = year
+    end
+  end
+  return animals
+end
+  
+puts extinct_before(extinct_animals, 2000)
 
 # 3. Our calculations were completely off, turns out all of those animals went
 # extinct 3 years before the date provided. Update the values in extinct_animals
 # so they accurately reflect what year the animal went extinct.
 # Do not use any special built-in methods.
 # ----
+
+def adjust_year(hash, adjustment)
+  hash.each do |animal, year|
+    hash[animal] = year - 3
+  end
+  return hash
+end
+
+puts adjust_year(extinct_animals, -3)
 
 # 4. You've heard that the following animals might be extinct, but you're not sure.
 # Check if they're included in extinct_animals, one by one:
@@ -64,8 +146,35 @@ extinct_animals = {
 # Do not use any special built-in methods.
 # ----
 
+def check_animal(hash, beast)
+  hash.each_key do | animal |
+    if animal == beast
+      return TRUE
+    end
+  end
+  return FALSE
+end
+
+def check_animals(hash, animals)
+  booleans = {}
+  animals.each do | animal |
+    booleans[animal] = check_animal(hash, animal)
+  end
+  return booleans
+end
+
+puts check_animals(extinct_animals, ["Andean Cat", "Dodo", "Saiga Antelope"])
+
 # 5. We just found out that the Passenger Pigeon is actually not extinct!
 # Remove them from extinct_animals and return the key value pair as a two item array.
 # Find the built-in method that helps you accomplish this in the Ruby documentation
 # for Hashes.
 # ----
+
+def resurrect(hash, animal)
+  array = hash.assoc(animal)
+  hash.delete(animal)
+  return array
+end
+
+puts resurrect(extinct_animals, "Passenger Pigeon")
