@@ -1,125 +1,77 @@
-# METHODS
+# SHIFT LETTER
 
-# STORE NAMES AS HASH
-
-alias_hash = {}
-
-# SHIFT TO NEXT LETTER.
-
+# method shift_letter(letter)
+  # store hash of shifts
+  # return:
+    # the shifted letter if letter is downcase
+    # the shifted capital letter if letter is upcase
+    # the letter if letter is actually punctuation
+  # (This approach solves for nonstandard capitalization
+  # ie "bell hooks" or "Andrew McMahon" or "Ludwig van Beethoven")
+# end
+  
 def shift_letter(letter)
-
-# Store vowels and consonants separately.
-  vowels = ["a", "e", "i", "o", "u"]
-  consonants = ["b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z"]
+  key = {"a" => "e", "b" => "c", "c" => "d", "d" => "f", "e" => "i", 
+         "f" => "g", "g" => "h", "h" => "j", "i" => "o", "j" => "k", 
+         "k" => "l", "l" => "m", "m" => "n", "n" => "p", "o" => "u", 
+         "p" => "q", "q" => "r", "r" => "s", "s" => "t", "t" => "v", 
+         "u" => "a", "v" => "w", "w" => "x", "x" => "y", "y" => "z", 
+         "z" => "b"}
   
-# Determine if letter is capitalized
-  if ('A'..'Z').include?(letter)
-    uppercase = true
-    letter = letter.downcase
+  if ('a'..'z').include? letter
+    return key[letter]
+  elsif ('A'..'Z').include? letter
+    return key[letter.downcase].upcase
   else
-    uppercase = false
-  end
-  
-# If letter is a vowel,
-
-  if vowels.include?(letter)
-    
-# If letter is the last vowel.
-
-    if vowels.index(letter) + 1 == vowels.length
-      
-# Return the first vowel.
-
-      letter = vowels[0]
-      
-# Else return the next vowel.
-
-    else
-      letter = vowels[vowels.index(letter) + 1]
-    end
-    
-# Else if letter is a consonant,
-  elsif consonants.include?(letter)
-  
-# If letter is the last consonant.
-
-    if consonants.index(letter) + 1 == consonants.length
-      
-# Return the first vowel.
-
-      letter = consonants[0]
-      
-# Else return the next vowel.
-
-    else
-      letter = consonants[consonants.index(letter) + 1]
-    end
-
-# Else letter is probably punctation, so
-
-  else
-    
-# Return punctuation unchanged.
-
-    letter
-  end
-
-# Restore capitalization if necessary.
-
-  if uppercase
-    letter = letter.upcase
-  else
-    letter
+    return letter
   end
 end
 
 # MAKE ALIAS
 
+# method make_alias(name)
+  # swap order of names
+  # split swapped name into array of letters
+  # shift each letter
+  # rejoin name
+#end
+
 def make_alias(name)
-  
-# Swap first and last name.
-  name = name.split(' ').reverse.join(' ')
-
-# Convert name to array.
-  name = name.split('')
-
-# Shift letters to next vowel or consonant.
+  name = name.split(' ').reverse.join(' ').split('')
   name.map! { |letter| shift_letter(letter) }
-
-# Rejoin name.
   name = name.join('')
+end
+
+# HASH ALIASES
+
+#method hash_alias()
+  # Start loop.
+    # get name from user
+      # break loop if 'quit'
+    # make alias for name
+    # store name and alias in hash
+    # print name and alias
+    # return hash
+# end
+
+def hash_alias()
+  hash = {}
+  loop do
+    puts "\nAgent name:"
+    name = gets.chomp
+    
+    break if name == "quit"
+    
+    aka = make_alias(name)
+    
+    hash[name] = aka
+    
+    puts "#{name} is also known as #{aka}."
+  end
   
+  hash.each do | name, aka |
+    print "\n#{name} is also known as #{aka}."
+  end
 end
 
-# DRIVER CODE
-
-# Get agent name.
-
-puts "What is the agent's name?"
-name = gets.chomp
-
-# Until user enters 'quit'
-
-until name == "quit"
-
-# Perform alias-making method on given name.
-  aka = make_alias(name)
-
-# Return alias for that name.
-
-  puts "#{name} is also known as #{aka}."
-
-# Store name and alias in hash.
-  alias_hash[name] = aka
-
-# Ask for another name.
-
-  puts "\nWhat is the next agent's name?"
-  name = gets.chomp
-end
-
-# Print hash of all name-alias pairs given.
-puts
-alias_hash.each do | name, aka |
-    puts name + " is also known as " + aka + "."
-end
+hash_alias()
