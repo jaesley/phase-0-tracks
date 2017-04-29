@@ -104,15 +104,39 @@ extinct_animals = {
 # with a dash in between the key and value, and an asterisk between each pair.
 # ----
 
+extinct_animals.each { |animal, year| print animal + " - " + year.to_s, " * " }
+
 # 2. Keep only animals in extinct_animals if they were extinct before
 # the year 2000. Do not use any special built-in methods.
 # ----
+
+def extinct_before(hash, date)
+  animals = {}
+  
+  hash.each do |animal, year|
+    if year < date
+      animals[animal] = year
+    end
+  end
+  return animals
+end
+  
+puts extinct_before(extinct_animals, 2000)
 
 # 3. Our calculations were completely off, turns out all of those animals went
 # extinct 3 years before the date provided. Update the values in extinct_animals
 # so they accurately reflect what year the animal went extinct.
 # Do not use any special built-in methods.
 # ----
+
+def adjust_year(hash, adjustment)
+  hash.each do |animal, year|
+    hash[animal] = year - 3
+  end
+  return hash
+end
+
+puts adjust_year(extinct_animals, -3)
 
 # 4. You've heard that the following animals might be extinct, but you're not sure.
 # Check if they're included in extinct_animals, one by one:
