@@ -2,21 +2,15 @@
 
 def search_array(array, x)
   i = 0
-  
-  if !array.include? x
-    return NIL
-  else
-    while i < array.length
-      until array[i] == x
-        i += 1
-      end
+
+  array.each do | y |
+    if y == x
       return i
     end
+    i += 1
   end
+  return NIL
 end
-
-array1 = [1, 2, 3, 4, 5]
-search_array(array1, 1)
 
 # Return an array of Fibonacci numbers
 
