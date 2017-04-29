@@ -7,7 +7,7 @@
     # the shifted capital letter if letter is upcase
     # the letter if letter is actually punctuation
   # (This approach solves for nonstandard capitalization
-  # ie "bell hooks" or "Andrew McMahon" or "Ludwig van Beethoven")
+  # ie "bell hooks" or "Andrew McMahon" or "Kareem Abdul-Jabbar")
 # end
   
 def shift_letter(letter)
