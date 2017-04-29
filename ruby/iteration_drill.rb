@@ -3,13 +3,39 @@
 zombie_apocalypse_supplies = ["hatchet", "rations", "water jug", "binoculars",
                               "shotgun", "compass", "CB radio", "batteries"]
 
+# Array Drills
+
+zombie_apocalypse_supplies = ["hatchet", "rations", "water jug", "binoculars",
+                              "shotgun", "compass", "CB radio", "batteries"]
+
 # 1. Iterate through the zombie_apocalypse_supplies array,
 # printing each item in the array separated by an asterisk
 # ----
 
+zombie_apocalypse_supplies.each { | item | print item, " * " }
+
 # 2. In order to keep yourself organized, sort your zombie_apocalypse_supplies
 # in alphabetical order. Do not use any special built-in methods.
 # ----
+
+def sort_bubble(array)
+  loop do
+    sorted = false
+  
+    (array.length - 1).times do |x|
+      if array[x] > array[x + 1]
+        array[x], array[x + 1] = array[x + 1], array[x]
+        sorted = true
+      end
+    end
+    
+    break if not sorted
+  end
+  
+  return array
+end
+
+puts sort_bubble(zombie_apocalypse_supplies)
 
 # 3. Create a method to see if a particular item (string) is in the
 # zombie_apocalypse_supplies. Do not use any special built-in methods.
