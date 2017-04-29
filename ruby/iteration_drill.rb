@@ -82,6 +82,12 @@ other_survivor_supplies = [ "warm clothes", "rations", "compass", "camp stove",
                             "solar battery", "flashlight"]
 # ----
 
+def combine_supplies(survivor1_pack, survivor2_pack)
+  survivor1_pack.concat(survivor2_pack).uniq!
+end
+
+puts combine_supplies(zombie_apocalypse_supplies, other_survivor_supplies)
+
 # Hash Drills
 
 extinct_animals = {
