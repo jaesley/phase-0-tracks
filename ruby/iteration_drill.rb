@@ -146,6 +146,25 @@ puts adjust_year(extinct_animals, -3)
 # Do not use any special built-in methods.
 # ----
 
+def check_animal(hash, beast)
+  hash.each_key do | animal |
+    if animal == beast
+      return TRUE
+    end
+  end
+  return FALSE
+end
+
+def check_animals(hash, animals)
+  booleans = {}
+  animals.each do | animal |
+    booleans[animal] = check_animal(hash, animal)
+  end
+  return booleans
+end
+
+puts check_animals(extinct_animals, ["Andean Cat", "Dodo", "Saiga Antelope"])
+
 # 5. We just found out that the Passenger Pigeon is actually not extinct!
 # Remove them from extinct_animals and return the key value pair as a two item array.
 # Find the built-in method that helps you accomplish this in the Ruby documentation
