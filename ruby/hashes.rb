@@ -1,104 +1,119 @@
 # METHODS
 
-# Set up blank hash.
+# Convert to Boolean
 
-client = {
-  :name => "",
-  :age => "",
-  :children => "",
-  :theme => "",
-  :budget => "",
-  :approval => "",
-  :hgtv => ""
-}
+# method make_bool(input)
+  # Return:
+  #   true if input is "y"
+  #   false if input is "n"
+# end method
 
-# DRIVER CODE
-
-# Update user-entered variables for hash.
-
-# Get client's name.
-puts "What is the client's name?"
-client[:name] = gets.chomp
-
-# Get client's age and convert to integer.
-
-puts "What is the client's age?"
-client[:age] = gets.chomp
-
-# Get client's number of children and convert to integer.
-
-puts "What is the client's number of children?"
-client[:children] = gets.chomp
-
-# Get client's decor theme.
-
-puts "What is the client's decor theme?"
-client[:theme] = gets.chomp
-
-# Get client's budget and convert to integer.
-
-puts "What is the client's budget?"
-client[:budget] = gets.chomp
-
-# Check client's approval status.
-
-puts "Did the client approve the design sketches? (y/n)"
-client[:approval] = gets.chomp
-
-# Force y/n answer.
-
-until client[:approval] == "y" || client[:approval] == "n"
-  puts "Please enter 'y' or 'n'. Did the client approve the design sketches?"
-  client[:approval] = gets.chomp
+def make_bool(input)
+  if input == "y"
+    return true
+  end
+  
+  return false
 end
 
-# Check if design will be featured on HGTV.
+# Repeat Input to Force Boolean
 
-puts "Is this redecoration going to be on HGTV? (y/n)"
-client[:hgtv] = gets.chomp
+# method repeat(hash, key, question)
+#   start loop
+#     print question
+#     get input for key
+#     if key is "y" or "n"
+#       convert key to boolean
+#       break loop
+#     end if
+#   end loop
+# end method
 
-# Force y/n answer.
+def repeat(hash, key, question)
+  loop do
+    puts question
+    hash[key] = gets.chomp
 
-until client[:hgtv] == "y" || client[:hgtv] == "n"
-  puts "Please enter 'y' or 'n'. Is this redecoration going to be on HGTV?"
-  client[:hgtv] = gets.chomp
+    if hash[key] == "y" || hash[key] == "n"
+      hash[key] = make_bool(hash[key])
+      break
+    end
+  end
+end
+# Add Client
+
+# method add_client()
+  # get client name
+  # get client age as integer
+  # get number of children as integer
+  # get decor theme
+  # get budget as integer
+  # get approval status
+    # convert to boolean
+  # get hgtv status
+    # convert to boolean
+  # check if any key needs to be updated
+# end method
+
+def add_client()
+  client = {}
+  
+  puts "What is the client's name?"
+  client[:name] = gets.chomp
+
+  puts "What is the client's age?"
+  client[:age] = gets.chomp.to_i
+
+  puts "What is the client's number of children?"
+  client[:children] = gets.chomp.to_i
+
+  puts "What is the client's decor theme?"
+  client[:theme] = gets.chomp
+
+  puts "What is the client's budget?"
+  client[:budget] = gets.chomp
+
+  repeat(client, "approval", "Did the client approve the design sketches? (y/n)")
+
+  repeat(client, "hgtv", "Is this redecoration going to be on HGTV? (y/n)")
+  
+  client.each do | key, value |
+    puts "#{key}: #{value}"
+  end
+
+  update(client)
+
+  client.each do | key, value |
+    puts "#{key}: #{value}"
+  end
 end
 
-# Print client info.
+# Update Key
 
-puts client
+# method update(client)
+#   get key to update
+#     break if none
+#   update key
+#   correct return type if necessary
+#   return updated hash
+# end method
 
-# Check if key needs updating.
+def update(hash)
+  puts "Which key needs updating? Enter 'none' if all are correct."
+  key = gets.chomp
 
-puts "Which key should be updated? If all keys are correct, enter 'none' to finalize your form."
-key = gets.chomp
-
-# If not 'none', get corrected key value.
-
-if key != "none"
-  puts "What is the corrected value for key \"#{key}\"?"
-  client[key.to_sym] = gets.chomp
+  if key != "none"
+      if key == "age" || key == "children" || key == "budget"
+        puts "What is the correct value for key #{key}?"
+        hash[key.to_sym] = gets.chomp.to_i
+      elsif key == "approval" || key == "hgtv"
+        repeat(hash, key, "What is the correct value for key #{key}?")
+      else
+        puts "What is the correct value for key #{key}?"
+        hash[key.to_sym] = gets.chomp
+      end
+  end
+  return hash
 end
 
-# Convert data types for finalized form.
-
-client[:age] = client[:age].to_i
-client[:children] = client[:children].to_i
-client[:budget] = client[:budget].to_i
-
-if client[:approval] == "y"
-  client[:approval] = true
-else 
-  client[:approval] = false
-end
-
-if client[:hgtv] == "y"
-  client[:hgtv] = true
-else 
-  client[:hgtv] = false
-end
-
-# Print finalized form.
-
-puts "Your finalized form is ready!"
-puts client
+add_client
