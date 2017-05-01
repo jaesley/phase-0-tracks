@@ -1,14 +1,14 @@
 # PUPPY
 
 # CHARACTERISTICS
-# Size
+# Name
+# Breed
 # Color
 # Markings
-# Breed
-# Name
+# Size
 
 # BEHAVIOR
-# Lick
-# Play
 # Bark
 # Chew
+# Lick
+# Play
