@@ -98,7 +98,7 @@ puts santa1.reindeer_ranking
 
 santas = []
 
-1.times do |x|
+5000.times do |x|
   santas << Santa.new(example_genders.sample, example_ethnicities.sample)
   santas[x].age = rand(140)
   santas[x].print
