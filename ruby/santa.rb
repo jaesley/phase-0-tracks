@@ -33,6 +33,9 @@ class Santa
       @reindeer_ranking.delete(reindeer)
       @reindeer_ranking.push(reindeer)
       @reindeer_ranking
+    else
+      puts "That's not a reindeer."
+    end
   end
 
   def gender=(new_gender)
@@ -45,6 +48,14 @@ class Santa
 
   def ethnicity
     @ethnicity
+  end
+
+  def reindeer_ranking
+    @reindeer_ranking
+  end
+
+  def gender
+    @gender
   end
 end
 
@@ -65,8 +76,9 @@ puts santa1.age
 puts santa1.ethnicity
 
 santa1.gender = "female"
+puts santa1.gender
 
 santa1.get_mad_at("Vixen")
-puts reindeer_ranking
+puts santa1.reindeer_ranking
 santa1.get_mad_at("Blair")
-puts reindeer_ranking
+puts santa1.reindeer_ranking
