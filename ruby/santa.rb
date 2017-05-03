@@ -1,6 +1,6 @@
 class Santa
-attr_reader :ethnicity, :reindeer_ranking, :age
-attr_accessor :gender
+attr_reader :ethnicity, :reindeer_ranking
+attr_accessor :gender, :age
 
   def initialize(gender, ethnicity)
     puts "Initializing Santa instance..."
@@ -66,14 +66,18 @@ attr_accessor :gender
       puts "That's not a reindeer."
     end
   end
+
+  def print
+    puts "Santa, #{@gender}, #{@ethnicity}, #{@age} years old"
+  end
 end
 
-santas = []
+example_santas = []
 example_genders = ["male", "female", "agender", "bigender", "gender fluid", "transfeminine", 'transmasculine']
-example_ethnicities = ["black", "white", "Latinx", "East Asian", "Southeast Asian", "Pacific Islander", "Native American"]
+example_ethnicities = ["black", "white", "Latinx", "East Asian", "Southeast Asian", "Pacific Islander", "Native American", "Aborigine"]
 
 example_genders.length.times do |i|
-  santas << Santa.new(example_genders[i], example_ethnicities[i])
+  example_santas << Santa.new(example_genders[i], example_ethnicities[i])
 end
 
 santa1 = Santa.new("male", "white")
@@ -91,3 +95,11 @@ santa1.get_mad_at("Vixen")
 puts santa1.reindeer_ranking
 santa1.get_mad_at("Blair")
 puts santa1.reindeer_ranking
+
+santas = []
+
+1.times do |x|
+  santas << Santa.new(example_genders.sample, example_ethnicities.sample)
+  santas[x].age = rand(140)
+  santas[x].print
+end
