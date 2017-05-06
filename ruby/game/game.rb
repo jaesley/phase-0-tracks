@@ -29,17 +29,6 @@
 #     end if
 #   end method
 
-#   method convert_input(input)
-#     store input_conversion as empty array
-#     for each character of input_blanks
-#       when character is space
-#         print two spaces
-#       when guessed_letters includes character
-#         print letter + space
-#       end loop
-#       return input_conversion
-#   end method
-
 class Game
   attr_accessor :guess_count, :input, :input_conversion, :guessed_letters
 
@@ -50,7 +39,6 @@ class Game
       puts "Starting a new game...."
       print_input(@input, guessed_letters)
   end
-end
 
 #   method print_input(input)
   # for each character in input
@@ -66,19 +54,22 @@ end
         print "_ "
       end
     end
+    print "\n"
   end
 
-#   method guess_letter
-#     if input contains that letter and it has not been guessed yet
-#       get index of the corresponding blank
-#       convert that blank to letter
-#       store guessed letter in guessed_letters array
-#       print success message
-#       print_input(input)
-#       increment guess_count by 1
-#     else
-#       return give_up message
-#     end if
+# method guess_letter(letter)
+#   add letter to guessed_letters array
+#   print_input
+#   return guessed_letters
+# end method
+
+  def guess_letter(letter)
+    puts "You guessed '#{letter}."
+    guessed_letters << letter
+    print_input(@input, @guessed_letters)
+    guessed_letters.uniq!
+  end
+end
 
 
 # end class
@@ -102,6 +93,8 @@ end
 # end
 
 game = Game.new(input)
+
+game.guess_letter("k")
 # start loop
 #   ask user for letter
 #   break when guess_count = input length

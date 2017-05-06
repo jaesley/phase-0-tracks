@@ -14,4 +14,9 @@ describe Game do
   it "stores the guess_count" do
     expect(game.guess_count).to eq 0
   end
+
+  it "updates guessed_letters when user guesses a letter" do
+    game.guess_letter("k")
+    expect(game.guessed_letters).to eq [" ", "k"]
+  end
 end
