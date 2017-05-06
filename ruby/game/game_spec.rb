@@ -20,8 +20,8 @@ describe Game do
     expect(game.guessed_letters).to eq [" ", "K"]
   end
 
-  it "updates the guess_count after each guess" do
+  it "throws an error message if user guesses same letter twice" do
     game.guess_letter("k")
-    expect(game.guess_count).to eq 1
+    expect(game.guess_letter("k")).to eq false
   end
 end

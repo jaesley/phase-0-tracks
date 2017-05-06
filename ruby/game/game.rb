@@ -30,10 +30,9 @@
 #   end method
 
 class Game
-  attr_accessor :guess_count, :input, :input_conversion, :guessed_letters
+  attr_accessor :input, :guessed_letters
 
   def initialize(input)
-      @guess_count = 0
       @input = input.split('')
       @guessed_letters = [" "]
       puts "Starting a new game...."
@@ -64,14 +63,16 @@ class Game
 # end method
 
   def guess_letter(letter)
+    if @guessed_letters.include? letter
+      puts "You already guessed '#{letter}' but I won't hold it against you. This time."
+      return false
+    end
     puts "You guessed '#{letter}'."
-    @guessed_letters << letter.upcase
+    @guessed_letters << letter
     print_input(@input)
     @guessed_letters.uniq!
-    @guess_count += 1
   end
 end
-
 
 # end class
 
@@ -89,13 +90,18 @@ end
 # loop do
   puts "Pick a word to start a game."
   input = gets.chomp.upcase
-#   break if string_val(input) == true
-#   puts "Your word should contain only letters and spaces. Try again, loser."
+  # break if string_val(input) == true
+  # puts "Your word should contain only letters and spaces. Try again, loser."
 # end
 
 game = Game.new(input)
 
-game.guess_letter("e")
+loop do
+  break if game.guessed_letters.length - 1 == input.length
+  puts "Pick a letter, or try to guess the word--if you can."
+  game.guess_letter(letter)
+end
+
 # start loop
 #   ask user for letter
 #   break when guess_count = input length
