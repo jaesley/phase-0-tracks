@@ -48,6 +48,7 @@ class Game
       @input = input.split('')
       @guessed_letters = [" "]
       puts "Starting a new game...."
+      print_input(@input, guessed_letters)
   end
 end
 
