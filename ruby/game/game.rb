@@ -29,23 +29,38 @@
 #     end if
 #   end method
 
+#     method print_input(input)
+#     for each character in input
+#       print character + space
+#     end loop
+#   end method
+
+#   method guess_letter(letter)
+#     add letter to guessed_letters array
+#     print_input
+#     return guessed_letters
+#   end method
+
+#   method end_game?
+#     return true if:
+#       @guessed_letters includes all the letters of input
+#       @guessed_letters contains input
+#       @guessed_letters.length - 1 equals input.length
+#     else
+#       return false
+#   end method
+  
+# end class
+
 class Game
-  attr_accessor :input, :guessed_letters, :game_lose, :game_win
+  attr_accessor :input, :guessed_letters
 
   def initialize(input)
       @input = input.upcase.split('')
       @guessed_letters = [" "]
-      @game_lose = false
-      @game_win = false
       puts "Starting a new game...."
       print_input(@input)
   end
-
-  #   method print_input(input)
-    # for each character in input
-    #   print character + space
-    # end loop
-  # end method
 
   def print_input(input)
     input.each do | character |
@@ -58,32 +73,13 @@ class Game
     print "\n"
     end
 
-  # method guess_letter(letter)
-  #   add letter to guessed_letters array
-  #   print_input
-  #   return guessed_letters
-  # end method
-
   def guess_letter(letter)
-    # if @guessed_letters.include? letter
-    #   puts "You already guessed '#{letter}' but I won't hold it against you. This time."
-    #   return false
-    # end
     puts "You guessed '#{letter}'."
     @guessed_letters << letter.upcase
     print_input(@input)
     @game_lose = lose_game?
     @guessed_letters.uniq!
   end
-
-  # method end_game?
-  #   return true if:
-  #     @guessed_letters includes all the letters of input
-  #     @guessed_letters contains input
-  #     @guessed_letters.length - 1 equals input.length
-  #   else
-  #     return false
-  # end method
 
   def lose_game?
     if @guessed_letters.length - 1 == input.length
@@ -106,20 +102,26 @@ class Game
 
     return true
   end
-
-# end class
 end
 
 # DRIVER CODE
 
-# puts "Pick a word to start a game."
-# input = gets.chomp
+puts "Pick a word to start a game."
+input = gets.chomp
 
-# game = Game.new(input)
+game = Game.new(input)
 
-# loop do
-#   break if game.guessed_letters.length - 1 == game.input.length
-#   puts "Pick a letter."
-#   letter = gets.chomp
-#   game.guess_letter(letter)
-# end
+loop do
+  puts "Pick a letter."
+  letter = gets.chomp
+  game.guess_letter(letter)
+  if game.lose_game? == true || game.win_game? == true
+    break
+  end
+end
+
+if game.win_game? == true
+  puts "You win... this time."
+else
+  puts "Ha! You lose!"
+end
