@@ -8,13 +8,13 @@
 #   end loop
 # end method
 
-def string_val(input)
-  input = input.split('')
-  input.each do |character|
-    puts character
-  end
-  return true
-end
+# def string_val(input)
+#   input = input.split('')
+#   input.each do |character|
+#     puts character
+#   end
+#   return true
+# end
 
 # class game
 #   method initialize(input)
@@ -45,8 +45,8 @@ class Game
 
   def initialize(input)
       @guess_count = 0
-      @input = input
-      @guessed_letters = []
+      @input = input.split('')
+      @guessed_letters = [" "]
       puts "Starting a new game...."
   end
 end
@@ -56,6 +56,16 @@ end
   #   print character + space
   # end loop
 # end method
+
+  def print_input(input, guessed_letters)
+    input.each do | character |
+      if guessed_letters.include? character
+        print character + " "
+      else
+        print "_ "
+      end
+    end
+  end
 
 #   method guess_letter
 #     if input contains that letter and it has not been guessed yet
@@ -83,13 +93,14 @@ end
 #     puts "Your word(s) should only contain letters and spaces. Try again."
 # end loop
 
-loop do
+# loop do
   puts "Pick a word to start a game."
   input = gets.chomp.upcase
-  break if string_val(input) == true
-  puts "Your word should contain only letters and spaces. Try again, loser."
-end
+#   break if string_val(input) == true
+#   puts "Your word should contain only letters and spaces. Try again, loser."
+# end
 
+game = Game.new(input)
 # start loop
 #   ask user for letter
 #   break when guess_count = input length
