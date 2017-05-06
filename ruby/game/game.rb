@@ -37,7 +37,7 @@ class Game
       @input = input.split('')
       @guessed_letters = [" "]
       puts "Starting a new game...."
-      print_input(@input, guessed_letters)
+      print_input(@input)
   end
 
 #   method print_input(input)
@@ -46,9 +46,9 @@ class Game
   # end loop
 # end method
 
-  def print_input(input, guessed_letters)
+  def print_input(input)
     input.each do | character |
-      if guessed_letters.include? character
+      if @guessed_letters.include? character
         print character + " "
       else
         print "_ "
@@ -64,10 +64,11 @@ class Game
 # end method
 
   def guess_letter(letter)
-    puts "You guessed '#{letter}."
-    guessed_letters << letter
-    print_input(@input, @guessed_letters)
-    guessed_letters.uniq!
+    puts "You guessed '#{letter}'."
+    @guessed_letters << letter.upcase
+    print_input(@input)
+    @guessed_letters.uniq!
+    @guess_count += 1
   end
 end
 
@@ -94,7 +95,7 @@ end
 
 game = Game.new(input)
 
-game.guess_letter("k")
+game.guess_letter("e")
 # start loop
 #   ask user for letter
 #   break when guess_count = input length
