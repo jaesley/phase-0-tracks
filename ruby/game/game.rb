@@ -30,20 +30,22 @@
 #   end method
 
 class Game
-  attr_accessor :input, :guessed_letters
+  attr_accessor :input, :guessed_letters, :game_lose, :game_win
 
   def initialize(input)
-      @input = input.split('')
+      @input = input.upcase.split('')
       @guessed_letters = [" "]
+      @game_lose = false
+      @game_win = false
       puts "Starting a new game...."
       print_input(@input)
   end
 
-#   method print_input(input)
-  # for each character in input
-  #   print character + space
-  # end loop
-# end method
+  #   method print_input(input)
+    # for each character in input
+    #   print character + space
+    # end loop
+  # end method
 
   def print_input(input)
     input.each do | character |
@@ -54,56 +56,70 @@ class Game
       end
     end
     print "\n"
-  end
+    end
 
-# method guess_letter(letter)
-#   add letter to guessed_letters array
-#   print_input
-#   return guessed_letters
-# end method
+  # method guess_letter(letter)
+  #   add letter to guessed_letters array
+  #   print_input
+  #   return guessed_letters
+  # end method
 
   def guess_letter(letter)
-    if @guessed_letters.include? letter
-      puts "You already guessed '#{letter}' but I won't hold it against you. This time."
-      return false
-    end
+    # if @guessed_letters.include? letter
+    #   puts "You already guessed '#{letter}' but I won't hold it against you. This time."
+    #   return false
+    # end
     puts "You guessed '#{letter}'."
-    @guessed_letters << letter
+    @guessed_letters << letter.upcase
     print_input(@input)
+    @game_lose = lose_game?
     @guessed_letters.uniq!
   end
-end
+
+  # method end_game?
+  #   return true if:
+  #     @guessed_letters includes all the letters of input
+  #     @guessed_letters contains input
+  #     @guessed_letters.length - 1 equals input.length
+  #   else
+  #     return false
+  # end method
+
+  def lose_game?
+    if @guessed_letters.length - 1 == input.length
+      return true
+     else
+      return false
+    end
+  end
+
+  def win_game?
+    if @guessed_letters.include? @input.join('')
+      return true
+    end
+
+    @input.uniq.each do |character|
+      if !@guessed_letters.include? character
+        return false
+      end
+    end
+
+    return true
+  end
 
 # end class
-
-
-# # Driver Code
-
-# start loop
-#   get user input for word
-#   if string_val == true
-#     initialize new game instance with input
-#   else
-#     puts "Your word(s) should only contain letters and spaces. Try again."
-# end loop
-
-# loop do
-  puts "Pick a word to start a game."
-  input = gets.chomp.upcase
-  # break if string_val(input) == true
-  # puts "Your word should contain only letters and spaces. Try again, loser."
-# end
-
-game = Game.new(input)
-
-loop do
-  break if game.guessed_letters.length - 1 == input.length
-  puts "Pick a letter, or try to guess the word--if you can."
-  game.guess_letter(letter)
 end
 
-# start loop
-#   ask user for letter
-#   break when guess_count = input length
-# end loop
+# DRIVER CODE
 
+# puts "Pick a word to start a game."
+# input = gets.chomp
+
+# game = Game.new(input)
+
+# loop do
+#   break if game.guessed_letters.length - 1 == game.input.length
+#   puts "Pick a letter."
+#   letter = gets.chomp
+#   game.guess_letter(letter)
+# end
