@@ -115,12 +115,12 @@ loop do
   puts "Pick a letter."
   letter = gets.chomp
   game.guess_letter(letter)
-  if game.lose_game? == true || game.win_game? == true
+  if game.lose_game? || game.win_game?
     break
   end
 end
 
-if game.win_game? == true
+if game.win_game?
   puts "You win... this time."
 else
   puts "Ha! You lose!"
