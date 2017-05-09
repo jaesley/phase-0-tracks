@@ -100,3 +100,15 @@ end
 
 #=======================================================================
 # Reflection Section
+
+# What are the differences between the two different hash syntaxes shown in the state_data file?
+  # The outer hash, of key state vs value data hash, uses rocket ship notation (=>) to input the value. 
+  # The more straight-forward secondary style takes a cue from JavaScript in syntax, and only supports symbols as keys.
+# What does require_relative do? How is it different from require?
+  # Makes a link to a second related Ruby file and virtually imports the file require takes the full file path as opposed to require_relative which does not
+# What are some ways to iterate through a hash?
+  # .each is the most basic way, and has additional similarly-named methods that allow for iterating by key, by value, or by pair. 
+# When refactoring virus_effects, what stood out to you about the variables, if anything?
+  # The variables were already given in instance variables, so there was no need to give them again as method parameters.
+# What concept did you most solidify in this challenge?
+  # The 'private' call was new to me in the context of Ruby, though I've worked with it somewhat in other languages. I liked getting the opportunity to see how it differs in Ruby.
