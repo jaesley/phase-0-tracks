@@ -29,3 +29,9 @@ carMelissa.startEngine();
 var carNate = new Car("gold", 2015, true);
 console.log(carNate);
 carNate.startEngine();
+
+for ( var k in carJae ) {
+  console.log(k + ": " + carJae[k]);
+}
+
+console.log(Object.keys(carMelissa));
