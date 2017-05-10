@@ -61,8 +61,45 @@ function pairMatch(object1, object2) {
       return true;
     }
   }
-  return false
+  return false;
 }
 
 console.log(pairMatch(steven, tamir));
-console.log(pairMatch(dog4, dog3))
+console.log(pairMatch(dog4, dog3));
+
+// Testing Code
+
+// function generateRandomizedArray(size)
+//   store the alphabet as a string variable
+//   store a blank array
+//   for size times:
+//     store a random number between 1 and 10 as number
+//     for number times:
+//       store a blank string
+//       pick a random letter from alphabet and add it to the string
+//     end loop
+//     push string to array
+//   end loop
+//   return array
+// end function
+function generateRandomizedArray(size) {
+  var alphabet = "abcdefghijklmnopqrstuvwxyz";
+  var arrayRandom = [];
+  for ( i = 0; i < size; i++ ) {
+    word = ""
+    var times = getRandomInt(1, 10);
+    for ( k = 0; k < times; k++ ) {
+    var index = getRandomInt(0, 25);
+    word += alphabet.charAt(index);
+    }
+    arrayRandom.push(word);
+  }
+  return arrayRandom
+}
+
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+console.log(generateRandomizedArray(5));
+console.log(generateRandomizedArray(10));
