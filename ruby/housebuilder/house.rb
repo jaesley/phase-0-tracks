@@ -1,46 +1,48 @@
-# BUSINESS LOGIC
+require_relative 'room'
 
-def add_room(house, room)
-  return false if house.keys.length == 5
-  house[room] = []
-  true
-end
+class House
+  attr_reader :rooms
 
-def add_item(house, room, item)
-  house[room] << item
-end
-
-house = {}
-
-# USER INTERFACE
-
-def print_house(house)
-  puts "-" * 10
-  puts "Current house configuration:"
-  house.keys.each_with_index do | room, index |
-    puts "#{index} - #{room}: #{house[room]}"
+  def initialize
+    @rooms = []
   end
 
-  puts "-" * 10
-end
+  def add_room(room)
+    if @rooms.length < 10
+      @rooms << room
+      true
+    else
+      false
+    end
+  end
 
-can_add_rooms = true
+  def to_s
+    house_string = ""
+    @rooms.each do | room |
+      house_str << room.to_s.upcase
+      house_str << "\n\n"
+      room.items.each do | item |
+        house_str << item.to_s
+        house_str << "/n"
+      end
+      house_str << "\n"
+    end
+    house_str
+  end
 
-while can_add_rooms
-  puts "Type the name of a room to add (or type 'done'):"  
-  room = gets.chomp
-  break if room == 'done'
-  can_add_rooms = add_room(house, room)
-  print_house(house)
-end
+  def total_value
+    total = 0
+    @rooms.each do | room |
+      total += room.total_value
+    end
+    value
+  end
 
-loop do
-  puts "Enter the number of the room to add an item to (or type 'done'):"
-  input = gets.chomp
-  break if input == 'done'
-  room_index = input.to_i
-  puts "Enter the item to add:"
-  item = gets.chomp
-  add_item(house, house.keys[room_index], item)
-  print_house(house)
+  def square_footage
+    sq_footage = 0
+    @rooms.each do | room |
+      sq_footage += room.width * room.length
+    end
+    sq_footage
+  end
 end
