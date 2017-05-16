@@ -1,0 +1,85 @@
+sqlite> SELECT * FROM books;
+
+1|Ancillary Justice|2013|true|4
+2|Ancillary Mercy|2015|true|4
+3|Ancillary Sword|2014|true|4
+5|American Gods|2011|true|1
+6|The Ocean at the End of the Lane|2013|false|1
+7|The Obelisk Gate|2016|false|2
+8|The Fifth Season|2015|true|2
+9|The Thousand Names|2013|true|3
+
+sqlite> UPDATE books SET read_status="true" WHERE id=6;
+sqlite> SELECT * FROM books;
+
+1|Ancillary Justice|2013|true|4
+2|Ancillary Mercy|2015|true|4
+3|Ancillary Sword|2014|true|4
+5|American Gods|2011|true|1
+6|The Ocean at the End of the Lane|2013|true|1
+7|The Obelisk Gate|2016|false|2
+8|The Fifth Season|2015|true|2
+9|The Thousand Names|2013|true|3
+
+sqlite> SELECT * FROM books, authors WHERE books.author_id = authors.id;
+
+1|Ancillary Justice|2013|true|4|4|Ann Leckie
+2|Ancillary Mercy|2015|true|4|4|Ann Leckie
+3|Ancillary Sword|2014|true|4|4|Ann Leckie
+5|American Gods|2011|true|1|1|Neil Gaiman
+6|The Ocean at the End of the Lane|2013|true|1|1|Neil Gaiman
+7|The Obelisk Gate|2016|false|2|2|N. K. Jemison
+8|The Fifth Season|2015|true|2|2|N. K. Jemison
+9|The Thousand Names|2013|true|3|3|Django Wexler
+
+sqlite> SELECT books.title, authors.name FROM books JOIN authors ON books.author_id = authors.id;
+
+Ancillary Justice|Ann Leckie
+Ancillary Mercy|Ann Leckie
+Ancillary Sword|Ann Leckie
+American Gods|Neil Gaiman
+The Ocean at the End of the Lane|Neil Gaiman
+The Obelisk Gate|N. K. Jemison
+The Fifth Season|N. K. Jemison
+The Thousand Names|Django Wexler
+
+sqlite> DELETE FROM books WHERE author_id=3;
+sqlite> SELECT * FROM books;
+
+1|Ancillary Justice|2013|true|4
+2|Ancillary Mercy|2015|true|4
+3|Ancillary Sword|2014|true|4
+5|American Gods|2011|true|1
+6|The Ocean at the End of the Lane|2013|true|1
+7|The Obelisk Gate|2016|false|2
+8|The Fifth Season|2015|true|2
+
+NATURAL JOIN - joins based on columns with the same name, so this links id 1 from books to id 1 of authors and so forth. Since there are fewer authors than books, it quits running after the last id'd author. Not accurate linkage in this case.
+sqlite> SELECT * FROM books NATURAL JOIN authors;
+
+1|Ancillary Justice|2013|true|4|Neil Gaiman
+2|Ancillary Mercy|2015|true|4|N. K. Jemison
+3|Ancillary Sword|2014|true|4|Django Wexler
+
+INNER JOIN - joins based on matches between linked fields, ie where books.author_id = author.id. Accurage linkage for these tables.
+sqlite> SELECT books.title, authors.name, books.pub_year FROM books INNER JOIN authors ON books.author_id = authors.id;
+
+Ancillary Justice|Ann Leckie|2013
+Ancillary Mercy|Ann Leckie|2015
+Ancillary Sword|Ann Leckie|2014
+American Gods|Neil Gaiman|2011
+The Ocean at the End of the Lane|Neil Gaiman|2013
+The Obelisk Gate|N. K. Jemison|2016
+The Fifth Season|N. K. Jemison|2015
+
+OUTER JOIN - joins similarly to inner join, but prints unmatched rows from the left/first table. Ex this shows Django Wexler without any linked titles, as we deleted his books from the db earlier. If the tables are reversed in join order, Wexler doesn't show up because all the books are matched to other authors; even though all the authors are not matched to books. Accurate linkage for these tables.
+sqlite> SELECT authors.name, books.title FROM authors LEFT OUTER JOIN books ON authors.id = books.author_id;
+
+Neil Gaiman|American Gods
+Neil Gaiman|The Ocean at the End of the Lane
+N. K. Jemison|The Fifth Season
+N. K. Jemison|The Obelisk Gate
+Django Wexler|
+Ann Leckie|Ancillary Justice
+Ann Leckie|Ancillary Mercy
+Ann Leckie|Ancillary Sword
