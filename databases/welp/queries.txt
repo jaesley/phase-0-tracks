@@ -1,0 +1,16 @@
+sqlite> SELECT * FROM users, businesses, reviews WHERE users.id = reviews.user_id AND businesses.id = reviews.business_id;
+
+2|Mandy|Kaling|3|The Beagle Nightclub|1|3|it's ok|3|2
+1|Bradford|Pitt|4|Lotus Yoga|2|5|great!|4|1
+6|Merryl|Streepman|3|The Beagle Nightclub|3|1|ewwwwww|3|6
+
+sqlite> SELECT users.first_name, users.last_name, businesses.name, reviews.stars, reviews.comment FROM users, businesses, reviews WHERE users.id = reviews.user_id AND businesses.id = reviews.business_id;
+
+Mandy|Kaling|The Beagle Nightclub|3|it's ok
+Bradford|Pitt|Lotus Yoga|5|great!
+Merryl|Streepman|The Beagle Nightclub|1|ewwwwww
+
+sqlite> SELECT users.first_name, users.last_name, businesses.name, reviews.stars, reviews.comment FROM users, businesses, reviews WHERE users.id = reviews.user_id AND businesses.id = reviews.business_id AND reviews.business_id = 4;
+
+Bradford|Pitt|Lotus Yoga|5|great!
+Holly|Berry|Lotus Yoga|4|almost perfect
