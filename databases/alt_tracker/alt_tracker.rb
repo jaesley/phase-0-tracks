@@ -4,19 +4,17 @@
 #   playing numerous persistant-world games, with a variety of characters on each game.
 #   End result: I frequently run into a friend playing under a new character name, and
 #   I realize that I know them and enjoy gaming with them... only to forget all that
-#   and have to rediscover them over and over again. This program is a stab at tracking
-#   that information, so I no longer go "... Ryan? That was you??" every six months.
+#   and have to rediscover them over and over again. A stab at organizing that info
+#   seemed like a good basis for a schema to practice my SQL + Ruby skills on.
 
 # create database
 # create tables: players, games, characters
 # add data to each table
 # retrieve data?
 
-# require gem
+# 1. Database Generation
 
 require 'sqlite3'
-
-# create sqlite database
 
 db = SQLite3::Database.new("alts.db")
 db.results_as_hash = true
@@ -54,3 +52,37 @@ cmd_create_table_characters = <<-SQL
 db.execute(cmd_create_table_players)
 db.execute(cmd_create_table_games)
 db.execute(cmd_create_table_characters)
+
+# 2. Methods
+
+# method add_player
+#   get name
+#   get location
+#   add to players table
+# end method
+
+def add_player(db, name, location)
+  db.execute("INSERT INTO players (name, location) VALUES (?, ?)", [name, location])
+end
+
+# 3. Driver Code / User Interface
+
+loop do
+  puts "Are you adding a player, a character, or a game? Enter 'done' if complete."
+  table_type = gets.chomp.downcase
+  break if table_type == "done"
+  case table_type
+  when "player"
+    puts "Player's name:"
+    name = gets.chomp
+    puts "Player's location:"
+    location = gets.chomp
+    add_player(db, name, location)
+  when "character"
+    add_character
+  when "game"
+    add_game
+  else
+    "Please enter 'player', 'character', or 'game', or 'done' if complete."
+  end
+end
