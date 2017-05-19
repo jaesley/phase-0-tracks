@@ -61,15 +61,23 @@ db.execute(cmd_create_table_characters)
 #   add to players table
 # end method
 
-def make_bool(input)
-  if input == "y"
-    return true
-  end
-  return false
-end
-
 def add_player(db, name, location)
   db.execute("INSERT INTO players (name, location) VALUES (?, ?)", [name, location])
+end
+
+def add_player_info(db)
+  puts "Player's name:"
+  name = gets.chomp
+  puts "Player's location:"
+  location = gets.chomp
+  add_player(db, name, location)
+end
+
+def view_players(db)
+  players = db.execute("SELECT * FROM players")
+  players.each do |player|
+    puts "#{player['id']}\t#{player['name']}\t\t#{player['location']}"
+  end
 end
 
 # method add_game
@@ -85,6 +93,24 @@ def add_game(db, name, setting, genre, activity_status)
   db.execute("INSERT INTO games (name, setting, genre, activity_status) VALUES (?, ?, ?, ?)", [name, setting, genre, activity_status])
 end
 
+def add_game_info(db)
+  puts "Game's name:"
+  name = gets.chomp
+  puts "Game's setting:"
+  setting = gets.chomp
+  puts "Game's genre:"
+  genre = gets.chomp
+  puts "Game's current activity status (true/false):"
+  activity_status = gets.chomp
+  add_game(db, name, setting, genre, activity_status)
+end
+
+def view_games(db)
+  games = db.execute("SELECT * FROM games")
+  games.each do |game|
+    puts "#{game['id']}\t#{game['name']}\t\t#{game['setting']}\t\t#{game['genre']}\t\t#{game['activity_status']}"
+  end
+end
 # method add_character
 #   get name
 #   get template
@@ -98,18 +124,18 @@ def add_character(db, name, template, game_id, player_id)
   db.execute("INSERT INTO characters (name, template, game_id, player_id) VALUES (?, ?, ?, ?)", [name, template, game_id, player_id])
 end
 
-def view_players(db)
-  players = db.execute("SELECT * FROM players")
-  players.each do |player|
-    puts "#{player['id']}\t#{player['name']}\t\t#{player['location']}"
-  end
-end
-
-def view_games(db)
-  games = db.execute("SELECT * FROM games")
-  games.each do |game|
-    puts "#{game['id']}\t#{game['name']}\t\t#{game['setting']}\t\t#{game['genre']}\t\t#{game['activity_status']}"
-  end
+def add_character_info(db)
+  puts "Character's name:"
+  name = gets.chomp
+  puts "Character's template:"
+  template = gets.chomp
+  puts "Game's ID number:"
+  view_games(db)
+  game_id = gets.chomp
+  puts "Player's ID number:"
+  view_players(db)
+  player_id = gets.chomp
+  add_character(db, name, template, game_id, player_id)
 end
 
 def view_characters(db)
@@ -118,53 +144,79 @@ def view_characters(db)
     puts "#{character[0]}\t#{character[1]}\t\t#{character[2]}\t#{character[3]}\t\t#{character[4]}"
   end
 end
+
 # 3. Driver Code / User Interface
 
-# loop do
-#   puts "Would you like to view or add information? Enter 'done' if complete."
-#   action_type = gets.chomp.downcase
-#   break if action_type == "done"
-#   case action_type
-#     when "add"
-#       puts "Are you adding a player, a character, or a game? Enter 'done' if complete."
-#       table_type = gets.chomp.downcase
-#       break if table_type == "done"
-#       case table_type
-#         when "player"
-#           puts "Player's name:"
-#           name = gets.chomp
-#           puts "Player's location:"
-#           location = gets.chomp
-#           add_player(db, name, location)
-#         when "character"
-#           puts "Character's name:"
-#           name = gets.chomp
-#           puts "Character's template:"
-#           template = gets.chomp
-#           puts "Game's ID number:"
-#           view_games(db)
-#           game_id = gets.chomp
-#           puts "Player's ID number:"
-#           view_players(db)
-#           player_id = gets.chomp
-#           add_character(db, name, template, game_id, player_id)
-#         when "game"
-#           puts "Game's name:"
-#           name = gets.chomp
-#           puts "Game's setting:"
-#           setting = gets.chomp
-#           puts "Game's genre:"
-#           genre = gets.chomp
-#           puts "Game's current activity status (y/n):"
-#           activity_status = gets.chomp
-#           add_game(db, name, setting, genre, activity_status)
-#         else
-#           puts "Please enter 'player', 'character', or 'game', or 'done' if complete."
-#       end
-#     when "view"
+# start loop
+#   view, add, or edit?
+#   break if done
+#   if add:
+#     add player, character, or game?
+#     if player:
+#       add_player
+#     else if game
+#       add_game
+#     else if character
+#       add character
 #     else
-#       puts "Please enter 'view' or 'edit', or 'done' if complete."
-#   end
-# end
+#       error message
+#     end if
+#   end if
+#   else if edit:
+#     edit player, character, or game?
+#     if player
+#       view players
+#       select number
+#       update player
+#     else if game
+#       view games
+#       select number
+#       update game
+#     else if character
+#       view characters
+#       select number
+#       update character
+#     else
+#       error message
+#     end if
+#   else view
+#     if players
+#       view players
+#     else if games
+#       view games
+#     else if characters
+#       view characters
+#     else
+#       error message
+#     end if
+#   end if
+# end loop
 
-view_characters(db)
+loop do
+  puts "Would you like to view, add, or edit information? Enter 'done' if complete."
+  action_type = gets.chomp.downcase
+  break if action_type == "done"
+  case action_type
+    when "add"
+      puts "Are you adding a player, a character, or a game?"
+      action_type = gets.chomp.downcase
+      case action_type
+        when "player"
+          add_player_info(db)
+        when "character"
+          add_character_info(db)
+        when "game"
+          add_game_info(db)
+        else
+          puts "Please enter 'player', 'character', or 'game', or 'done' if complete."
+      end
+    when "view"
+      puts "Would you like to view players, games, or characters?"
+      action_type = gets.chomp.downcase
+    when "edit"
+      puts "Would you like to edit a player, a game, or a character?"
+      action_type = gets.chomp.downcase
+    else
+      puts "Please enter 'view', 'add', or 'edit', or 'done' if complete."
+  end
+end
