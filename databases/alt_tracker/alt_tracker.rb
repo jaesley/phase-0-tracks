@@ -101,29 +101,38 @@ end
 # 3. Driver Code / User Interface
 
 loop do
-  puts "Are you adding a player, a character, or a game? Enter 'done' if complete."
-  table = gets.chomp.downcase
-  break if table == "done"
-  case table_type
-    when "player"
-      puts "Player's name:"
-      name = gets.chomp
-      puts "Player's location:"
-      location = gets.chomp
-      add_player(db, name, location)
-    when "character"
-      add_character
-    when "game"
-      puts "Game's name:"
-      name = gets.chomp
-      puts "Game's setting:"
-      setting = gets.chomp
-      puts "Game's genre:"
-      genre = gets.chomp
-      puts "Game's current activity status (y/n):"
-      activity_status = gets.chomp
-      add_game(db, name, setting, genre, activity_status)
+  puts "Would you like to view or edit information? Enter 'done' if complete."
+  action_type = gets.chomp.downcase
+  break if action_type = "done"
+  case action_type
+    when "edit"
+      puts "Are you adding a player, a character, or a game? Enter 'done' if complete."
+      table = gets.chomp.downcase
+      break if table == "done"
+      case table_type
+        when "player"
+          puts "Player's name:"
+          name = gets.chomp
+          puts "Player's location:"
+          location = gets.chomp
+          add_player(db, name, location)
+        when "character"
+          add_character
+        when "game"
+          puts "Game's name:"
+          name = gets.chomp
+          puts "Game's setting:"
+          setting = gets.chomp
+          puts "Game's genre:"
+          genre = gets.chomp
+          puts "Game's current activity status (y/n):"
+          activity_status = gets.chomp
+          add_game(db, name, setting, genre, activity_status)
+        else
+          puts "Please enter 'player', 'character', or 'game', or 'done' if complete."
+      end
+    when "view"
     else
-      "Please enter 'player', 'character', or 'game', or 'done' if complete."
+      puts "Please enter 'view' or 'edit', or 'done' if complete."
   end
 end
