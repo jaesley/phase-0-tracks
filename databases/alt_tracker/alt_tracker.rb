@@ -61,28 +61,69 @@ db.execute(cmd_create_table_characters)
 #   add to players table
 # end method
 
+def make_bool(input)
+  if input == "y"
+    return true
+  end
+  return false
+end
+
 def add_player(db, name, location)
   db.execute("INSERT INTO players (name, location) VALUES (?, ?)", [name, location])
+end
+
+# method add_game
+#   get name
+#   get setting
+#   get genre
+#   get activity_status
+#     convert to boolean
+#   add to games table
+# end method
+
+def add_game(db, name, setting, genre, activity_status)
+  db.execute("INSERT INTO games (name, setting, genre, activity_status) VALUES (?, ?, ?, ?", [name, setting, genre, activity_status])
+end
+
+# method add_character
+#   get name
+#   get template
+#   show list of games
+#   get game id
+#   show list of players
+#   get player id
+# end method
+
+def add_character(db, name, template, game_id, player_id)
+  db.execute("INSERT INTO characters (name, template, game_id, player_id) VALUES (?, ?, ?, ?)", [name, template, game_id, player_id])
 end
 
 # 3. Driver Code / User Interface
 
 loop do
   puts "Are you adding a player, a character, or a game? Enter 'done' if complete."
-  table_type = gets.chomp.downcase
-  break if table_type == "done"
+  table = gets.chomp.downcase
+  break if table == "done"
   case table_type
-  when "player"
-    puts "Player's name:"
-    name = gets.chomp
-    puts "Player's location:"
-    location = gets.chomp
-    add_player(db, name, location)
-  when "character"
-    add_character
-  when "game"
-    add_game
-  else
-    "Please enter 'player', 'character', or 'game', or 'done' if complete."
+    when "player"
+      puts "Player's name:"
+      name = gets.chomp
+      puts "Player's location:"
+      location = gets.chomp
+      add_player(db, name, location)
+    when "character"
+      add_character
+    when "game"
+      puts "Game's name:"
+      name = gets.chomp
+      puts "Game's setting:"
+      setting = gets.chomp
+      puts "Game's genre:"
+      genre = gets.chomp
+      puts "Game's current activity status (y/n):"
+      activity_status = gets.chomp
+      add_game(db, name, setting, genre, activity_status)
+    else
+      "Please enter 'player', 'character', or 'game', or 'done' if complete."
   end
 end
