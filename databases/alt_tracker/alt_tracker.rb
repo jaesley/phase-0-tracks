@@ -98,17 +98,28 @@ def add_character(db, name, template, game_id, player_id)
   db.execute("INSERT INTO characters (name, template, game_id, player_id) VALUES (?, ?, ?, ?)", [name, template, game_id, player_id])
 end
 
+def view_players
+  db.execute("SELECT * FROM players")
+end
+
+def view_games
+  db.execute("SELECT * FROM games")
+end
+
+def view_characters
+  db.execute("SELECT * FROM characters")
+end
 # 3. Driver Code / User Interface
 
 loop do
   puts "Would you like to view or edit information? Enter 'done' if complete."
   action_type = gets.chomp.downcase
-  break if action_type = "done"
+  break if action_type == "done"
   case action_type
     when "edit"
       puts "Are you adding a player, a character, or a game? Enter 'done' if complete."
-      table = gets.chomp.downcase
-      break if table == "done"
+      table_type = gets.chomp.downcase
+      break if table_type == "done"
       case table_type
         when "player"
           puts "Player's name:"
@@ -117,7 +128,11 @@ loop do
           location = gets.chomp
           add_player(db, name, location)
         when "character"
-          add_character
+          puts "Character's name:"
+          name = gets.chomp
+          puts "Character's template:"
+          template = gets.chomp
+
         when "game"
           puts "Game's name:"
           name = gets.chomp
