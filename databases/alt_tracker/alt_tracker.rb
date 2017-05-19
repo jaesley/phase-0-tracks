@@ -82,7 +82,7 @@ end
 # end method
 
 def add_game(db, name, setting, genre, activity_status)
-  db.execute("INSERT INTO games (name, setting, genre, activity_status) VALUES (?, ?, ?, ?", [name, setting, genre, activity_status])
+  db.execute("INSERT INTO games (name, setting, genre, activity_status) VALUES (?, ?, ?, ?)", [name, setting, genre, activity_status])
 end
 
 # method add_character
@@ -98,56 +98,73 @@ def add_character(db, name, template, game_id, player_id)
   db.execute("INSERT INTO characters (name, template, game_id, player_id) VALUES (?, ?, ?, ?)", [name, template, game_id, player_id])
 end
 
-def view_players
-  db.execute("SELECT * FROM players")
+def view_players(db)
+  players = db.execute("SELECT * FROM players")
+  players.each do |player|
+    puts "#{player['id']}\t#{player['name']}\t\t#{player['location']}"
+  end
 end
 
-def view_games
-  db.execute("SELECT * FROM games")
+def view_games(db)
+  games = db.execute("SELECT * FROM games")
+  games.each do |game|
+    puts "#{game['id']}\t#{game['name']}\t\t#{game['setting']}\t\t#{game['genre']}\t\t#{game['activity_status']}"
+  end
 end
 
-def view_characters
-  db.execute("SELECT * FROM characters")
+def view_characters(db)
+  characters = db.execute("SELECT characters.id, characters.name, characters.template, games.name, players.name FROM characters, games, players WHERE games.id = characters.game_id AND players.id = characters.player_id;")
+  characters.each do |character|
+    puts "#{character[0]}\t#{character[1]}\t\t#{character[2]}\t#{character[3]}\t\t#{character[4]}"
+  end
 end
 # 3. Driver Code / User Interface
 
-loop do
-  puts "Would you like to view or edit information? Enter 'done' if complete."
-  action_type = gets.chomp.downcase
-  break if action_type == "done"
-  case action_type
-    when "edit"
-      puts "Are you adding a player, a character, or a game? Enter 'done' if complete."
-      table_type = gets.chomp.downcase
-      break if table_type == "done"
-      case table_type
-        when "player"
-          puts "Player's name:"
-          name = gets.chomp
-          puts "Player's location:"
-          location = gets.chomp
-          add_player(db, name, location)
-        when "character"
-          puts "Character's name:"
-          name = gets.chomp
-          puts "Character's template:"
-          template = gets.chomp
+# loop do
+#   puts "Would you like to view or add information? Enter 'done' if complete."
+#   action_type = gets.chomp.downcase
+#   break if action_type == "done"
+#   case action_type
+#     when "add"
+#       puts "Are you adding a player, a character, or a game? Enter 'done' if complete."
+#       table_type = gets.chomp.downcase
+#       break if table_type == "done"
+#       case table_type
+#         when "player"
+#           puts "Player's name:"
+#           name = gets.chomp
+#           puts "Player's location:"
+#           location = gets.chomp
+#           add_player(db, name, location)
+#         when "character"
+#           puts "Character's name:"
+#           name = gets.chomp
+#           puts "Character's template:"
+#           template = gets.chomp
+#           puts "Game's ID number:"
+#           view_games(db)
+#           game_id = gets.chomp
+#           puts "Player's ID number:"
+#           view_players(db)
+#           player_id = gets.chomp
+#           add_character(db, name, template, game_id, player_id)
+#         when "game"
+#           puts "Game's name:"
+#           name = gets.chomp
+#           puts "Game's setting:"
+#           setting = gets.chomp
+#           puts "Game's genre:"
+#           genre = gets.chomp
+#           puts "Game's current activity status (y/n):"
+#           activity_status = gets.chomp
+#           add_game(db, name, setting, genre, activity_status)
+#         else
+#           puts "Please enter 'player', 'character', or 'game', or 'done' if complete."
+#       end
+#     when "view"
+#     else
+#       puts "Please enter 'view' or 'edit', or 'done' if complete."
+#   end
+# end
 
-        when "game"
-          puts "Game's name:"
-          name = gets.chomp
-          puts "Game's setting:"
-          setting = gets.chomp
-          puts "Game's genre:"
-          genre = gets.chomp
-          puts "Game's current activity status (y/n):"
-          activity_status = gets.chomp
-          add_game(db, name, setting, genre, activity_status)
-        else
-          puts "Please enter 'player', 'character', or 'game', or 'done' if complete."
-      end
-    when "view"
-    else
-      puts "Please enter 'view' or 'edit', or 'done' if complete."
-  end
-end
+view_characters(db)
