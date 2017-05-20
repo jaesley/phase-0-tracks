@@ -65,10 +65,10 @@ def add_player(db, name, location)
   db.execute("INSERT INTO players (name, location) VALUES (?, ?)", [name, location])
 end
 
-def add_player_info(db)
+def get_player_info(db)
   puts "Player's name:"
   name = gets.chomp
-  puts "Player's location:"
+  puts "Player's location (state if American, country otherwise):"
   location = gets.chomp
   add_player(db, name, location)
 end
@@ -93,7 +93,7 @@ def add_game(db, name, setting, genre, activity_status)
   db.execute("INSERT INTO games (name, setting, genre, activity_status) VALUES (?, ?, ?, ?)", [name, setting, genre, activity_status])
 end
 
-def add_game_info(db)
+def get_game_info(db)
   puts "Game's name:"
   name = gets.chomp
   puts "Game's setting:"
@@ -108,9 +108,10 @@ end
 def view_games(db)
   games = db.execute("SELECT * FROM games")
   games.each do |game|
-    puts "#{game['id']}\t#{game['name']}\t\t#{game['setting']}\t\t#{game['genre']}\t\t#{game['activity_status']}"
+    puts "#{game['id']}\t#{game['name']}\t#{game['setting']}\t#{game['genre']}\t#{game['activity_status']}"
   end
 end
+
 # method add_character
 #   get name
 #   get template
@@ -124,7 +125,7 @@ def add_character(db, name, template, game_id, player_id)
   db.execute("INSERT INTO characters (name, template, game_id, player_id) VALUES (?, ?, ?, ?)", [name, template, game_id, player_id])
 end
 
-def add_character_info(db)
+def get_character_info(db)
   puts "Character's name:"
   name = gets.chomp
   puts "Character's template:"
@@ -141,7 +142,35 @@ end
 def view_characters(db)
   characters = db.execute("SELECT characters.id, characters.name, characters.template, games.name, players.name FROM characters, games, players WHERE games.id = characters.game_id AND players.id = characters.player_id;")
   characters.each do |character|
-    puts "#{character[0]}\t#{character[1]}\t\t#{character[2]}\t#{character[3]}\t\t#{character[4]}"
+    puts "#{character[0]}\t#{character[1]}\t#{character[2]}\t#{character[3]}\t#{character[4]}"
+  end
+end
+
+# to view db rows:
+# store view options as hash key, sql query as VALUES
+#   index as key, value is array of option + sql query?
+# select the number to retrieve the value for that key
+
+def view_options(db)
+  options = {}
+  options[1] = ["View all players.", "SELECT * FROM players"]
+  options[2] = ["View all games.", "SELECT * FROM games"]
+  options[3] = ["View all characters.", "SELECT * FROM characters"]
+  options[4] = ["View all players in a specific location.",]
+  options[5] = ["View all active games.",]
+  options[6] = ["View all games in a genre",]
+  options[7] = ["View all characters played by a player.",]
+  options[8] = ["View all characters on a game.",]
+  options[9] = ["View all characters played by a player on a game.",]
+
+  options.each do | index, option |
+    puts "#{index}. #{option[0]}"
+  end
+
+  view = gets.chomp.to_i
+  view = db.execute(options[view][1])
+  view.each do | row |
+    puts 
   end
 end
 
@@ -202,20 +231,30 @@ loop do
       action_type = gets.chomp.downcase
       case action_type
         when "player"
-          add_player_info(db)
+          get_player_info(db)
         when "character"
-          add_character_info(db)
+          get_character_info(db)
         when "game"
-          add_game_info(db)
+          get_game_info(db)
         else
           puts "Please enter 'player', 'character', or 'game', or 'done' if complete."
       end
     when "view"
-      puts "Would you like to view players, games, or characters?"
-      action_type = gets.chomp.downcase
+      puts "Below are some of the most useful ways to view informatonio. Select the number of the otion you would like below."
+      view_options(db)
     when "edit"
       puts "Would you like to edit a player, a game, or a character?"
       action_type = gets.chomp.downcase
+      case action_type
+        when "player"
+          edit_player_info(db)
+        when "character"
+          edit_character_info(db)
+        when "game"
+          edit_game_info(db)
+        else
+          puts "Please enter 'player', 'character', or 'game', or 'done' if complete."
+      end
     else
       puts "Please enter 'view', 'add', or 'edit', or 'done' if complete."
   end
