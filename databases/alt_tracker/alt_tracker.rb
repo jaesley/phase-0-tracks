@@ -1,3 +1,6 @@
+# Can I refactor into a Game_DB class, using modules for adding, viewing, and editing,
+# in order to streamline this file? 
+
 # Objective:
 
 # I do a lot of online tabletop gaming, which involves people from all over the world,
@@ -7,180 +10,12 @@
 #   and have to rediscover them over and over again. A stab at organizing that info
 #   seemed like a good basis for a schema to practice my SQL + Ruby skills on.
 
-# create database
-# create tables: players, games, characters
-# add data to each table
-# retrieve data?
+# I'm not confident that my program organization is optimal, but I decided that breaking
+#   it down like this would be a good way to practice some skills I haven't used as much, 
+#   like modules, and integrating a lot of different concepts together. I'm nothing if not
+#   overambitious!
 
-# 1. Database Generation
-
-require 'sqlite3'
-
-db = SQLite3::Database.new("alts.db")
-db.results_as_hash = true
-
-cmd_create_table_players = <<-SQL
-  CREATE TABLE IF NOT EXISTS players (
-    id INTEGER PRIMARY KEY,
-    name VARCHAR(255),
-    location VARCHAR(255)
-    )
-  SQL
-
-cmd_create_table_games = <<-SQL
-  CREATE TABLE IF NOT EXISTS games (
-    id INTEGER PRIMARY KEY,
-    name VARCHAR(255),
-    setting VARCHAR(255),
-    genre VARCHAR(255),
-    activity_status BOOLEAN
-  )
-  SQL
-
-cmd_create_table_characters = <<-SQL
-  CREATE TABLE IF NOT EXISTS characters (
-    id INTEGER PRIMARY KEY,
-    name VARCHAR(255),
-    template VARCHAR(255),
-    game_id INTEGER,
-    player_id INTEGER,
-    FOREIGN KEY (game_id) REFERENCES games(id),
-    FOREIGN KEY (player_id) REFERENCES players(id)
-  )
-  SQL
-
-db.execute(cmd_create_table_players)
-db.execute(cmd_create_table_games)
-db.execute(cmd_create_table_characters)
-
-# 2. Methods
-
-# method add_player
-#   get name
-#   get location
-#   add to players table
-# end method
-
-def add_player(db, name, location)
-  db.execute("INSERT INTO players (name, location) VALUES (?, ?)", [name, location])
-end
-
-def get_player_info(db)
-  puts "Player's name:"
-  name = gets.chomp
-  puts "Player's location (state if American, country otherwise):"
-  location = gets.chomp
-  add_player(db, name, location)
-end
-
-
-# method add_game
-#   get name
-#   get setting
-#   get genre
-#   get activity_status
-#     convert to boolean
-#   add to games table
-# end method
-
-def add_game(db, name, setting, genre, activity_status)
-  db.execute("INSERT INTO games (name, setting, genre, activity_status) VALUES (?, ?, ?, ?)", [name, setting, genre, activity_status])
-end
-
-def get_game_info(db)
-  puts "Game's name:"
-  name = gets.chomp
-  puts "Game's setting:"
-  setting = gets.chomp
-  puts "Game's genre:"
-  genre = gets.chomp
-  puts "Game's current activity status (true/false):"
-  activity_status = gets.chomp
-  add_game(db, name, setting, genre, activity_status)
-end
-
-
-# method add_character
-#   get name
-#   get template
-#   show list of games
-#   get game id
-#   show list of players
-#   get player id
-# end method
-
-def add_character(db, name, template, game_id, player_id)
-  db.execute("INSERT INTO characters (name, template, game_id, player_id) VALUES (?, ?, ?, ?)", [name, template, game_id, player_id])
-end
-
-def get_character_info(db)
-  puts "Character's name:"
-  name = gets.chomp
-  puts "Character's template:"
-  template = gets.chomp
-  puts "Game's ID number:"
-  view_games(db)
-  game_id = gets.chomp
-  puts "Player's ID number:"
-  view_players(db)
-  player_id = gets.chomp
-  add_character(db, name, template, game_id, player_id)
-end
-
-
-
-# to view db rows:
-# store view options as hash key, sql query as VALUES
-#   index as key, value is array of option + sql query?
-#     will have to make individual cmds for each output
-#     array should be printed text + cmd name
-#     then can run cmd via array index
-# select the number to retrieve the value for that key
-
-def view_options(db)
-  options = {}
-  options[1] = ["View all players.", "view_players(db)"]
-  # options[2] = ["View all games.", view_games(db)]
-  # options[3] = ["View all characters.", view_characters(db)]
-  # options[5] = ["View all active games.", view_games_active(db)]
-  # options[6] = ["View all games in a genre", view_games_genre(db)]
-  # options[7] = ["View all characters played by a player.", view_characters_player(db)]
-  # options[8] = ["View all characters on a game.", view_characters_game(db)]
-  # options[9] = ["View all characters played by a player on a game.", view_characters_player_game(db)]
-
-  options.each do | index, option |
-    puts "#{index}. #{option[0]}"
-  end
-
-  view = gets.chomp.to_i
-  options[view][1]
-  # It runs the cmd text when adding to hash. How to make it add it as text
-  # and then run the command by calling it later by hash?
-end
-
-def view_players(db)
-  players = db.execute("SELECT * FROM players")
-  players.each do |player|
-    puts "#{player['id']}\t#{player['name']}\t\t#{player['location']}"
-  end
-end
-
-def view_games(db)
-  games = db.execute("SELECT * FROM games")
-  games.each do |game|
-    puts "#{game['id']}\t#{game['name']}\t#{game['setting']}\t#{game['genre']}\t#{game['activity_status']}"
-  end
-end
-
-def view_characters(db)
-  characters = db.execute("SELECT characters.id, characters.name, characters.template, games.name, players.name FROM characters, games, players WHERE games.id = characters.game_id AND players.id = characters.player_id;")
-  characters.each do |character|
-    puts "#{character[0]}\t#{character[1]}\t#{character[2]}\t#{character[3]}\t#{character[4]}"
-  end
-end
-
-
-# 3. Driver Code / User Interface
+# Driver Code / User Interface
 
 # start loop
 #   view, add, or edit?
@@ -226,6 +61,13 @@ end
 #     end if
 #   end if
 # end loop
+
+require_relative 'game_db'
+
+db = Game_DB.new("alts.db")
+
+# will have to update cmds to act as methods on Game_DB instance
+# do I need the (db) param on every cmd if I revamp into a class?
 
 loop do
   puts "Would you like to view, add, or edit information? Enter 'done' if complete."
