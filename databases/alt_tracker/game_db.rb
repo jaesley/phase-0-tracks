@@ -12,10 +12,13 @@ require_relative 'add_cmds'
 require_relative 'edit_cmds'
 require_relative 'view_cmds'
 
-class Game_DB include 'Add_Info'
+class Game_db
+  include Add_cmds
+  include View_cmds
+  # include Edit_cmds
   attr_accessor :db
-  
-  def initialize(db_name.db) # sets up the db/tables
+
+  def initialize(db_name) # sets up the db/tables
     db = SQLite3::Database.new("alts.db")
     db.results_as_hash = true
 

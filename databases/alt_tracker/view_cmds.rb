@@ -1,4 +1,6 @@
-Module View_Cmds
+require 'sqlite3'
+
+module View_cmds
 
 # to view db rows:
 # store view options as hash key, sql query as VALUES

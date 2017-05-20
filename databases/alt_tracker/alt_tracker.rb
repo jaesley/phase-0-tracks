@@ -64,7 +64,7 @@
 
 require_relative 'game_db'
 
-db = Game_DB.new("alts.db")
+db = Game_db.new("alts.db")
 
 # will have to update cmds to act as methods on Game_DB instance
 # do I need the (db) param on every cmd if I revamp into a class?
@@ -79,27 +79,27 @@ loop do
       action_type = gets.chomp.downcase
       case action_type
         when "player"
-          get_player_info(db)
+          db.get_player_info(db)
         when "character"
-          get_character_info(db)
+          db.get_character_info(db)
         when "game"
-          get_game_info(db)
+          db.get_game_info(db)
         else
           puts "Please enter 'player', 'character', or 'game', or 'done' if complete."
       end
     when "view"
       puts "Below are some of the most useful ways to view information. Enter the number of the option you would like."
-      view_options(db)
+      db.view_options(db)
     when "edit"
       puts "Would you like to edit a player, a game, or a character?"
       action_type = gets.chomp.downcase
       case action_type
         when "player"
-          edit_player_info(db)
+          db.edit_player_info(db)
         when "character"
-          edit_character_info(db)
+          db.edit_character_info(db)
         when "game"
-          edit_game_info(db)
+          db.edit_game_info(db)
         else
           puts "Please enter 'player', 'character', or 'game', or 'done' if complete."
       end
