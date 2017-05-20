@@ -73,12 +73,6 @@ def get_player_info(db)
   add_player(db, name, location)
 end
 
-def view_players(db)
-  players = db.execute("SELECT * FROM players")
-  players.each do |player|
-    puts "#{player['id']}\t#{player['name']}\t\t#{player['location']}"
-  end
-end
 
 # method add_game
 #   get name
@@ -105,12 +99,6 @@ def get_game_info(db)
   add_game(db, name, setting, genre, activity_status)
 end
 
-def view_games(db)
-  games = db.execute("SELECT * FROM games")
-  games.each do |game|
-    puts "#{game['id']}\t#{game['name']}\t#{game['setting']}\t#{game['genre']}\t#{game['activity_status']}"
-  end
-end
 
 # method add_character
 #   get name
@@ -139,6 +127,51 @@ def get_character_info(db)
   add_character(db, name, template, game_id, player_id)
 end
 
+
+
+# to view db rows:
+# store view options as hash key, sql query as VALUES
+#   index as key, value is array of option + sql query?
+#     will have to make individual cmds for each output
+#     array should be printed text + cmd name
+#     then can run cmd via array index
+# select the number to retrieve the value for that key
+
+def view_options(db)
+  options = {}
+  options[1] = ["View all players.", "view_players(db)"]
+  # options[2] = ["View all games.", view_games(db)]
+  # options[3] = ["View all characters.", view_characters(db)]
+  # options[5] = ["View all active games.", view_games_active(db)]
+  # options[6] = ["View all games in a genre", view_games_genre(db)]
+  # options[7] = ["View all characters played by a player.", view_characters_player(db)]
+  # options[8] = ["View all characters on a game.", view_characters_game(db)]
+  # options[9] = ["View all characters played by a player on a game.", view_characters_player_game(db)]
+
+  options.each do | index, option |
+    puts "#{index}. #{option[0]}"
+  end
+
+  view = gets.chomp.to_i
+  options[view][1]
+  # It runs the cmd text when adding to hash. How to make it add it as text
+  # and then run the command by calling it later by hash?
+end
+
+def view_players(db)
+  players = db.execute("SELECT * FROM players")
+  players.each do |player|
+    puts "#{player['id']}\t#{player['name']}\t\t#{player['location']}"
+  end
+end
+
+def view_games(db)
+  games = db.execute("SELECT * FROM games")
+  games.each do |game|
+    puts "#{game['id']}\t#{game['name']}\t#{game['setting']}\t#{game['genre']}\t#{game['activity_status']}"
+  end
+end
+
 def view_characters(db)
   characters = db.execute("SELECT characters.id, characters.name, characters.template, games.name, players.name FROM characters, games, players WHERE games.id = characters.game_id AND players.id = characters.player_id;")
   characters.each do |character|
@@ -146,33 +179,6 @@ def view_characters(db)
   end
 end
 
-# to view db rows:
-# store view options as hash key, sql query as VALUES
-#   index as key, value is array of option + sql query?
-# select the number to retrieve the value for that key
-
-def view_options(db)
-  options = {}
-  options[1] = ["View all players.", "SELECT * FROM players"]
-  options[2] = ["View all games.", "SELECT * FROM games"]
-  options[3] = ["View all characters.", "SELECT * FROM characters"]
-  options[4] = ["View all players in a specific location.",]
-  options[5] = ["View all active games.",]
-  options[6] = ["View all games in a genre",]
-  options[7] = ["View all characters played by a player.",]
-  options[8] = ["View all characters on a game.",]
-  options[9] = ["View all characters played by a player on a game.",]
-
-  options.each do | index, option |
-    puts "#{index}. #{option[0]}"
-  end
-
-  view = gets.chomp.to_i
-  view = db.execute(options[view][1])
-  view.each do | row |
-    puts 
-  end
-end
 
 # 3. Driver Code / User Interface
 
@@ -240,7 +246,7 @@ loop do
           puts "Please enter 'player', 'character', or 'game', or 'done' if complete."
       end
     when "view"
-      puts "Below are some of the most useful ways to view informatonio. Select the number of the otion you would like below."
+      puts "Below are some of the most useful ways to view information. Enter the number of the option you would like."
       view_options(db)
     when "edit"
       puts "Would you like to edit a player, a game, or a character?"
