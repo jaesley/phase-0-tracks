@@ -104,24 +104,17 @@ def add_character(db, name, template, game_id, player_id)
   db.execute("INSERT INTO characters (name, template, game_id, player_id) VALUES (?, ?, ?, ?)", [name, template, game_id, player_id])
 end
 
-# to view db rows:
-# store view options as hash key, sql query as VALUES
-#   index as key, value is array of option + sql query?
-#     will have to make individual cmds for each output
-#     array should be printed text + cmd name
-#     then can run cmd via array index
-# select the number to retrieve the value for that key
-
 def view_options(db)
   options = {}
   options[1] = "View all players."
   options[2] = "View all games."
   options[3] = "View all characters."
-  options[4] = "View all active games."
-  options[5] = "View all games in a genre"
-  options[6] = "View all characters played by a player."
-  options[7] = "View all characters on a game."
-  options[8] = "View all characters played by a player on a game."
+  options[4] = "View all players in a location."
+  options[5] = "View all active games."
+  options[6] = "View all games in a genre"
+  options[7] = "View all characters played by a player."
+  options[8] = "View all characters on a game."
+  options[9] = "View all characters played by a player on a game."
 
   options.each do | index, option |
     puts "#{index}. #{option}"
@@ -137,17 +130,33 @@ def view_options(db)
   when 3
     view_characters(db)
   when 4
-    view_games_active(db)
+    puts "What location would you like to see all players from? (state for Americans, country otherwise)"
+    location = gets.chomp
+    view_players_location(db, location)
   when 5
+    view_games_active(db)
+  when 6
     puts "What genre would you like to view?"
     genre = gets.chomp
     view_games_genre(db, genre)
-  when 6
-    view_characters_player
   when 7
-    view_characters_game
+    puts "Which player's characters would you like to view?"
+    view_players(db)
+    id = gets.chomp
+    view_characters_player(db, id)
   when 8
-    view_characters_player_game
+    puts "Which game's characters would you like to view?"
+    view_games(db)
+    id = gets.chomp
+    view_characters_game(db, id)
+  when 9
+    puts "Which player's characters would you like to view?"
+    view_players(db)
+    player_id = gets.chomp
+    puts "Which game's characters would you like to view?"
+    view_games(db)
+    game_id = gets.chomp
+    view_characters_player_game(db, player_id, game_id)
   else
     "Enter the number of the view you would like."
   end
@@ -174,6 +183,13 @@ def view_characters(db)
   end
 end
 
+def view_players_location(db, location)
+  players = db.execute("SELECT * FROM players WHERE location = \"#{location}\"")
+  players.each do |player|
+    puts "#{player['id']}\t#{player['name']}\t\t#{player['location']}"
+  end
+end
+
 def view_games_active(db)
   games = db.execute("SELECT * FROM games WHERE activity_status = \"true\"")
   games.each do |game|
@@ -185,6 +201,27 @@ def view_games_genre(db, genre)
   games = db.execute("SELECT * FROM games WHERE genre = \"#{genre}\"")
   games.each do |game|
     puts "#{game['id']}\t#{game['name']}\t#{game['setting']}\t#{game['genre']}\t#{game['activity_status']}"
+  end
+end
+
+def view_characters_player(db, id)
+  characters = db.execute("SELECT * FROM characters WHERE player_id = \"#{id}\"")
+  characters.each do |character|
+    puts "#{character[0]}\t#{character[1]}\t#{character[2]}\t#{character[3]}\t#{character[4]}"
+  end
+end
+
+def view_characters_game(db, id)
+  characters = db.execute("SELECT * FROM characters WHERE game_id = \"#{id}\"")
+  characters.each do |character|
+    puts "#{character[0]}\t#{character[1]}\t#{character[2]}\t#{character[3]}\t#{character[4]}"
+  end
+end
+
+def view_characters_player_game(db, player_id, game_id)
+  characters = db.execute("SELECT * FROM characters WHERE player_id = \"#{player_id}\" AND game_id = \"#{game_id}\"")
+  characters.each do |character|
+    puts "#{character[0]}\t#{character[1]}\t#{character[2]}\t#{character[3]}\t#{character[4]}"
   end
 end
 
