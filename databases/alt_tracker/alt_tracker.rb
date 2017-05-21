@@ -1,6 +1,3 @@
-# Can I refactor into a Game_DB class, using modules for adding, viewing, and editing,
-# in order to streamline this file? 
-
 # Objective:
 
 # I do a lot of online tabletop gaming, which involves people from all over the world,
@@ -58,10 +55,12 @@ db.execute(cmd_create_table_players)
 db.execute(cmd_create_table_games)
 db.execute(cmd_create_table_characters)
 
+# 2. Commands to Add Info
+
 def get_player_info(db)
-  puts "Player's name:"
+  puts "\nPlayer's name:"
   name = gets.chomp
-  puts "Player's location (state if American, country otherwise):"
+  puts "\nPlayer's location (state if American, country otherwise):"
   location = gets.chomp
   add_player(db, name, location)
 end
@@ -71,13 +70,13 @@ def add_player(db, name, location)
 end
 
 def get_game_info(db)
-  puts "Game's name:"
+  puts "\nGame's name:"
   name = gets.chomp
-  puts "Game's setting:"
+  puts "\nGame's setting:"
   setting = gets.chomp
-  puts "Game's genre:"
+  puts "\nGame's genre:"
   genre = gets.chomp
-  puts "Game's current activity status (true/false):"
+  puts "\nGame's current activity status (true/false):"
   activity_status = gets.chomp
   add_game(db, name, setting, genre, activity_status)
 end
@@ -87,14 +86,14 @@ def add_game(db, name, setting, genre, activity_status)
 end
 
 def get_character_info(db)
-  puts "Character's name:"
+  puts "\nCharacter's name:"
   name = gets.chomp
-  puts "Character's template:"
+  puts "\nCharacter's template:"
   template = gets.chomp
-  puts "Game's ID number:"
+  puts "\nGame's ID number:"
   view_games(db)
   game_id = gets.chomp
-  puts "Player's ID number:"
+  puts "\nPlayer's ID number:"
   view_players(db)
   player_id = gets.chomp
   add_character(db, name, template, game_id, player_id)
@@ -103,6 +102,8 @@ end
 def add_character(db, name, template, game_id, player_id)
   db.execute("INSERT INTO characters (name, template, game_id, player_id) VALUES (?, ?, ?, ?)", [name, template, game_id, player_id])
 end
+
+# 3. Commands to View Info
 
 def view_options(db)
   options = {}
@@ -130,130 +131,138 @@ def view_options(db)
   when 3
     view_characters(db)
   when 4
-    puts "What location would you like to see all players from? (state for Americans, country otherwise)"
+    puts "\nWhat location would you like to see all players from? (state for Americans, country otherwise)"
     location = gets.chomp
     view_players_location(db, location)
   when 5
     view_games_active(db)
   when 6
-    puts "What genre would you like to view?"
+    puts "\nWhat genre would you like to view?"
     genre = gets.chomp
     view_games_genre(db, genre)
   when 7
-    puts "Which player's characters would you like to view?"
+    puts "\nWhich player's characters would you like to view?"
     view_players(db)
     id = gets.chomp
     view_characters_player(db, id)
   when 8
-    puts "Which game's characters would you like to view?"
+    puts "\nWhich game's characters would you like to view?"
     view_games(db)
     id = gets.chomp
     view_characters_game(db, id)
   when 9
-    puts "Which player's characters would you like to view?"
+    puts "\nWhich player's characters would you like to view?"
     view_players(db)
     player_id = gets.chomp
-    puts "Which game's characters would you like to view?"
+    puts "\nWhich game's characters would you like to view?"
     view_games(db)
     game_id = gets.chomp
     view_characters_player_game(db, player_id, game_id)
   else
-    "Enter the number of the view you would like."
+    "\nEnter the number of the view you would like."
   end
+end
+
+def view_player_template(players)
+  puts "\n" + "ID".ljust(3) + "Name".ljust(20) + "Location"
+  players.each do |player|
+    puts player['id'].to_s.ljust(3) + player['name'].ljust(20) + player['location']
+  end
+  puts
+end
+
+def view_game_template(games)
+  puts "\n" + "ID".ljust(3) + "Name".ljust(20) + "Setting".ljust(10) + "Genre".ljust(25) + "Activity Status"
+  games.each do |game|
+    puts game['id'].to_s.ljust(3) + game['name'].ljust(20) + game['setting'].ljust(10) + game['genre'].ljust(25) + game['activity_status']
+  end
+  puts
+end
+
+def view_character_template(characters)
+  puts "\n" + "ID".ljust(3) + "Name".ljust(20) + "Template".ljust(20) + "Game".ljust(20) + "Player"
+  characters.each do |character|
+    puts character[0].to_s.ljust(3) + character[1].ljust(20) + character[2].ljust(20) + character[3].ljust(20) + character[4]
+  end
+  puts 
 end
 
 def view_players(db)
   players = db.execute("SELECT * FROM players")
-  players.each do |player|
-    puts "#{player['id']}\t#{player['name']}\t\t#{player['location']}"
-  end
+  view_player_template(players)
 end
 
 def view_games(db)
   games = db.execute("SELECT * FROM games")
-  games.each do |game|
-    puts "#{game['id']}\t#{game['name']}\t#{game['setting']}\t#{game['genre']}\t#{game['activity_status']}"
-  end
+  view_game_template(games)
 end
 
 def view_characters(db)
   characters = db.execute("SELECT characters.id, characters.name, characters.template, games.name, players.name FROM characters, games, players WHERE games.id = characters.game_id AND players.id = characters.player_id;")
-  characters.each do |character|
-    puts "#{character[0]}\t#{character[1]}\t#{character[2]}\t#{character[3]}\t#{character[4]}"
-  end
+  view_character_template(characters)
 end
 
 def view_players_location(db, location)
   players = db.execute("SELECT * FROM players WHERE location = \"#{location}\"")
-  players.each do |player|
-    puts "#{player['id']}\t#{player['name']}\t\t#{player['location']}"
-  end
+  view_player_template(players)
 end
 
 def view_games_active(db)
   games = db.execute("SELECT * FROM games WHERE activity_status = \"true\"")
-  games.each do |game|
-    puts "#{game['id']}\t#{game['name']}\t#{game['setting']}\t#{game['genre']}\t#{game['activity_status']}"
-  end
+  view_game_template(games)
 end
 
 def view_games_genre(db, genre)
   games = db.execute("SELECT * FROM games WHERE genre = \"#{genre}\"")
-  games.each do |game|
-    puts "#{game['id']}\t#{game['name']}\t#{game['setting']}\t#{game['genre']}\t#{game['activity_status']}"
-  end
+  view_game_template(games)
 end
 
 def view_characters_player(db, id)
   characters = db.execute("SELECT * FROM characters WHERE player_id = \"#{id}\"")
-  characters.each do |character|
-    puts "#{character[0]}\t#{character[1]}\t#{character[2]}\t#{character[3]}\t#{character[4]}"
-  end
+  view_character_template(characters)
 end
 
 def view_characters_game(db, id)
   characters = db.execute("SELECT * FROM characters WHERE game_id = \"#{id}\"")
-  characters.each do |character|
-    puts "#{character[0]}\t#{character[1]}\t#{character[2]}\t#{character[3]}\t#{character[4]}"
-  end
+  view_character_template(characters)
 end
 
 def view_characters_player_game(db, player_id, game_id)
   characters = db.execute("SELECT * FROM characters WHERE player_id = \"#{player_id}\" AND game_id = \"#{game_id}\"")
-  characters.each do |character|
-    puts "#{character[0]}\t#{character[1]}\t#{character[2]}\t#{character[3]}\t#{character[4]}"
-  end
+  view_character_template(characters)
 end
 
+# 4. Commands to Edit Info
+
 def edit_player_info(db)
-  puts "Enter the number of the player you would like to edit."
+  puts "\nEnter the number of the player you would like to edit."
   view_players(db)
   id = gets.chomp
-  puts "Would you like to update name or location?"
+  puts "\nWould you like to update name or location?"
   field = gets.chomp.downcase
-  puts "What is the updated #{field}?"
+  puts "\nWhat is the updated #{field}?"
   correction = gets.chomp
   db.execute("UPDATE players SET #{field} = \"#{correction}\" WHERE id = #{id}")
 end
 
 def edit_game_info(db)
-  puts "Enter the number of the game you would like to edit."
+  puts "\nEnter the number of the game you would like to edit."
   view_games(db)
   id = gets.chomp
-  puts "Would you like to update name, setting, genre, or activity_status?"
+  puts "\nWould you like to update name, setting, genre, or activity_status?"
   field = gets.chomp.downcase
-  puts "What is the updated #{field}?"
+  puts "\nWhat is the updated #{field}?"
   correction = gets.chomp
   db.execute("UPDATE games SET #{field} = \"#{correction}\" WHERE id = #{id}")
 end
 
 def edit_character_info(db)
-  puts "Enter the number of the character you would like to edit."
+  puts "\nEnter the number of the character you would like to edit."
   view_characters(db)
   id = gets.chomp
-  puts "Would you like to update name, template, game_id, or player_id?"
+  puts "\nWould you like to update name, template, game_id, or player_id?"
   field = gets.chomp.downcase
-  puts "What is the updated #{field}?"
+  puts "\nWhat is the updated #{field}?"
   if field == "game_id" 
     view_games
   elsif field == "player_id"
@@ -263,7 +272,7 @@ def edit_character_info(db)
   db.execute("UPDATE characters SET #{field} = \"#{correction}\" WHERE id = #{id}")
 end
 
-# Driver Code / User Interface
+# 5. Driver Code / User Interface
 
 # start loop
 #   view, add, or edit?
@@ -311,12 +320,12 @@ end
 # end loop
 
 loop do
-  puts "Would you like to view, add, or edit information? Enter 'done' if complete."
+  puts "\nWould you like to view, add, or edit information? Enter 'done' if complete."
   action_type = gets.chomp.downcase
   break if action_type == "done"
   case action_type
     when "add"
-      puts "Are you adding a player, a character, or a game?"
+      puts "\nAre you adding a player, a character, or a game?"
       action_type = gets.chomp.downcase
       case action_type
         when "player"
@@ -329,10 +338,10 @@ loop do
           puts "Please enter 'player', 'character', or 'game', or 'done' if complete."
       end
     when "view"
-      puts "Below are some of the most useful ways to view information. Enter the number of the option you would like."
+      puts "\nBelow are some of the most useful ways to view information. Enter the number of the option you would like."
       view_options(db)
     when "edit"
-      puts "Would you like to edit a player, a game, or a character?"
+      puts "\nWould you like to edit a player, a game, or a character?"
       action_type = gets.chomp.downcase
       case action_type
         when "player"
@@ -342,9 +351,9 @@ loop do
         when "game"
           edit_game_info(db)
         else
-          puts "Please enter 'player', 'character', or 'game', or 'done' if complete."
+          puts "\nPlease enter 'player', 'character', or 'game', or 'done' if complete."
       end
     else
-      puts "Please enter 'view', 'add', or 'edit', or 'done' if complete."
+      puts "\nPlease enter 'view', 'add', or 'edit', or 'done' if complete."
   end
 end
