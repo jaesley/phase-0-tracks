@@ -10,10 +10,182 @@
 #   and have to rediscover them over and over again. A stab at organizing that info
 #   seemed like a good basis for a schema to practice my SQL + Ruby skills on.
 
-# I'm not confident that my program organization is optimal, but I decided that breaking
-#   it down like this would be a good way to practice some skills I haven't used as much, 
-#   like modules, and integrating a lot of different concepts together. I'm nothing if not
-#   overambitious!
+require 'sqlite3'
+require_relative 'game_db'
+
+# create database
+# create tables: players, games, characters
+# add data to each table
+# retrieve data?
+
+# 1. Database Generation
+
+require 'sqlite3'
+
+db = SQLite3::Database.new("alts.db")
+db.results_as_hash = true
+
+cmd_create_table_players = <<-SQL
+  CREATE TABLE IF NOT EXISTS players (
+    id INTEGER PRIMARY KEY,
+    name VARCHAR(255),
+    location VARCHAR(255)
+    )
+  SQL
+
+cmd_create_table_games = <<-SQL
+  CREATE TABLE IF NOT EXISTS games (
+    id INTEGER PRIMARY KEY,
+    name VARCHAR(255),
+    setting VARCHAR(255),
+    genre VARCHAR(255),
+    activity_status BOOLEAN
+  )
+  SQL
+
+cmd_create_table_characters = <<-SQL
+  CREATE TABLE IF NOT EXISTS characters (
+    id INTEGER PRIMARY KEY,
+    name VARCHAR(255),
+    template VARCHAR(255),
+    game_id INTEGER,
+    player_id INTEGER,
+    FOREIGN KEY (game_id) REFERENCES games(id),
+    FOREIGN KEY (player_id) REFERENCES players(id)
+  )
+  SQL
+
+db.execute(cmd_create_table_players)
+db.execute(cmd_create_table_games)
+db.execute(cmd_create_table_characters)
+
+# method add_player
+#   get name
+#   get location
+#   add to players table
+# end method
+
+def get_player_info(db)
+  puts "Player's name:"
+  name = gets.chomp
+  puts "Player's location (state if American, country otherwise):"
+  location = gets.chomp
+  add_player(db, name, location)
+end
+
+# method add_game
+#   get name
+#   get setting
+#   get genre
+#   get activity_status
+#     convert to boolean
+#   add to games table
+# end method
+
+def get_game_info(db)
+  puts "Game's name:"
+  name = gets.chomp
+  puts "Game's setting:"
+  setting = gets.chomp
+  puts "Game's genre:"
+  genre = gets.chomp
+  puts "Game's current activity status (true/false):"
+  activity_status = gets.chomp
+  add_game(db, name, setting, genre, activity_status)
+end
+
+# method add_character
+#   get name
+#   get template
+#   show list of games
+#   get game id
+#   show list of players
+#   get player id
+# end method
+
+def get_character_info(db)
+  puts "Character's name:"
+  name = gets.chomp
+  puts "Character's template:"
+  template = gets.chomp
+  puts "Game's ID number:"
+  view_games(db)
+  game_id = gets.chomp
+  puts "Player's ID number:"
+  view_players(db)
+  player_id = gets.chomp
+  add_character(db, name, template, game_id, player_id)
+end
+
+def add_player(db, name, location)
+  db.execute("INSERT INTO players (name, location) VALUES (?, ?)", [name, location])
+end
+
+def add_game(db, name, setting, genre, activity_status)
+  db.execute("INSERT INTO games (name, setting, genre, activity_status) VALUES (?, ?, ?, ?)", [name, setting, genre, activity_status])
+end
+
+def add_character(db, name, template, game_id, player_id)
+  db.execute("INSERT INTO characters (name, template, game_id, player_id) VALUES (?, ?, ?, ?)", [name, template, game_id, player_id])
+end
+
+# method add_player
+#   get name
+#   get location
+#   add to players table
+# end method
+
+def get_player_info(db)
+  puts "Player's name:"
+  name = gets.chomp
+  puts "Player's location (state if American, country otherwise):"
+  location = gets.chomp
+  add_player(db, name, location)
+end
+
+# method add_game
+#   get name
+#   get setting
+#   get genre
+#   get activity_status
+#     convert to boolean
+#   add to games table
+# end method
+
+def get_game_info(db)
+  puts "Game's name:"
+  name = gets.chomp
+  puts "Game's setting:"
+  setting = gets.chomp
+  puts "Game's genre:"
+  genre = gets.chomp
+  puts "Game's current activity status (true/false):"
+  activity_status = gets.chomp
+  add_game(db, name, setting, genre, activity_status)
+end
+
+# method add_character
+#   get name
+#   get template
+#   show list of games
+#   get game id
+#   show list of players
+#   get player id
+# end method
+
+def get_character_info(db)
+  puts "Character's name:"
+  name = gets.chomp
+  puts "Character's template:"
+  template = gets.chomp
+  puts "Game's ID number:"
+  view_games(db)
+  game_id = gets.chomp
+  puts "Player's ID number:"
+  view_players(db)
+  player_id = gets.chomp
+  add_character(db, name, template, game_id, player_id)
+end
 
 # Driver Code / User Interface
 
@@ -62,13 +234,6 @@
 #   end if
 # end loop
 
-require_relative 'game_db'
-
-db = Game_db.new("alts.db")
-
-# will have to update cmds to act as methods on Game_DB instance
-# do I need the (db) param on every cmd if I revamp into a class?
-
 loop do
   puts "Would you like to view, add, or edit information? Enter 'done' if complete."
   action_type = gets.chomp.downcase
@@ -79,27 +244,27 @@ loop do
       action_type = gets.chomp.downcase
       case action_type
         when "player"
-          db.get_player_info(db)
+          get_player_info(db)
         when "character"
-          db.get_character_info(db)
+          get_character_info(db)
         when "game"
-          db.get_game_info(db)
+          get_game_info(db)
         else
           puts "Please enter 'player', 'character', or 'game', or 'done' if complete."
       end
     when "view"
       puts "Below are some of the most useful ways to view information. Enter the number of the option you would like."
-      db.view_options(db)
+      view_options(db)
     when "edit"
       puts "Would you like to edit a player, a game, or a character?"
       action_type = gets.chomp.downcase
       case action_type
         when "player"
-          db.edit_player_info(db)
+          edit_player_info(db)
         when "character"
-          db.edit_character_info(db)
+          edit_character_info(db)
         when "game"
-          db.edit_game_info(db)
+          edit_game_info(db)
         else
           puts "Please enter 'player', 'character', or 'game', or 'done' if complete."
       end
