@@ -5,7 +5,8 @@
 #   End result: I frequently run into a friend playing under a new character name, and
 #   I realize that I know them and enjoy gaming with them... only to forget all that
 #   and have to rediscover them over and over again. A stab at organizing that info
-#   seemed like a good basis for a schema to practice my SQL + Ruby skills on.
+#   seemed like a good basis for a schema to practice my SQL + Ruby skills on, and
+#   it can be expanded over time as I find old friends in new guises!
 
 require 'sqlite3'
 
@@ -172,17 +173,17 @@ def view_player_template(players)
 end
 
 def view_game_template(games)
-  puts "\n" + "ID".ljust(3) + "Name".ljust(20) + "Setting".ljust(10) + "Genre".ljust(25) + "Activity Status"
+  puts "\n" + "ID".ljust(3) + "Name".ljust(25) + "Setting".ljust(15) + "Genre".ljust(25) + "Active?"
   games.each do |game|
-    puts game['id'].to_s.ljust(3) + game['name'].ljust(20) + game['setting'].ljust(10) + game['genre'].ljust(25) + game['activity_status']
+    puts game['id'].to_s.ljust(3) + game['name'].ljust(25) + game['setting'].ljust(15) + game['genre'].ljust(25) + game['activity_status']
   end
   puts
 end
 
 def view_character_template(characters)
-  puts "\n" + "ID".ljust(3) + "Name".ljust(20) + "Template".ljust(20) + "Game".ljust(20) + "Player"
+  puts "\n" + "ID".ljust(3) + "Name".ljust(20) + "Template".ljust(15) + "Game".ljust(25) + "Player"
   characters.each do |character|
-    puts character[0].to_s.ljust(3) + character[1].ljust(20) + character[2].ljust(20) + character[3].ljust(20) + character[4]
+    puts character[0].to_s.ljust(3) + character[1].ljust(20) + character[2].ljust(15) + character[3].to_s.ljust(25) + character[4].to_s
   end
   puts 
 end
@@ -198,7 +199,7 @@ def view_games(db)
 end
 
 def view_characters(db)
-  characters = db.execute("SELECT characters.id, characters.name, characters.template, games.name, players.name FROM characters, games, players WHERE games.id = characters.game_id AND players.id = characters.player_id;")
+  characters = db.execute("SELECT characters.id, characters.name, characters.template, games.name, players.name FROM characters, games, players WHERE games.id = characters.game_id AND players.id = characters.player_id")
   view_character_template(characters)
 end
 
@@ -218,17 +219,17 @@ def view_games_genre(db, genre)
 end
 
 def view_characters_player(db, id)
-  characters = db.execute("SELECT * FROM characters WHERE player_id = \"#{id}\"")
+  characters = db.execute("SELECT characters.id, characters.name, characters.template, games.name, players.name FROM characters, games, players WHERE games.id = characters.game_id AND players.id = characters.player_id AND characters.player_id = #{id}")
   view_character_template(characters)
 end
 
 def view_characters_game(db, id)
-  characters = db.execute("SELECT * FROM characters WHERE game_id = \"#{id}\"")
+  characters = db.execute("SELECT characters.id, characters.name, characters.template, games.name, players.name FROM characters, games, players WHERE games.id = characters.game_id AND players.id = characters.player_id AND characters.game_id = #{id}")
   view_character_template(characters)
 end
 
 def view_characters_player_game(db, player_id, game_id)
-  characters = db.execute("SELECT * FROM characters WHERE player_id = \"#{player_id}\" AND game_id = \"#{game_id}\"")
+  characters = db.execute("SELECT characters.id, characters.name, characters.template, games.name, players.name FROM characters, games, players WHERE games.id = characters.game_id AND players.id = characters.player_id AND characters.player_id = #{player_id} AND characters.game_id = #{game_id}")
   view_character_template(characters)
 end
 
