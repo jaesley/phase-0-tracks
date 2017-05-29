@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Search Results</title>
+</head>
+<body>
+  <h1>Students attending the <%= @searched_campus[0]['campus'] %> campus:</h1>
+  <ul>
+    <% @searched_campus.each do |student| %>
+      <li><%= student['name'] %>: <%= student['campus'] %></li>
+    <% end %>
+  </ul>
+</body>
+</html>
